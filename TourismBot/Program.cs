@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Threading.Tasks;
+using TourismBot.Workers;
 
 namespace TourismBot
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var worker = new TelegramWorkerService();
+            await worker.ExecuteCore();
         }
     }
 }
