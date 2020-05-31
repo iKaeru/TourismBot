@@ -8,6 +8,25 @@ namespace TourismBot.Models
         public static Rule Budgetary = new Rule(new List<string>(), 3.5f);
         public static Rule Picky = new Rule(InitializePickyRule(), 4.5f);
         public static Rule Food { get; } = new Rule(InitializeFoodRule(), 4.5f);
+        public static Rule Alcohol = new Rule(new List<string>(), 4.7f);
+        public static Rule Quality = new Rule(new List<string>(), 4.3f);
+        public static Rule RestWithKids = new Rule(new List<string>(), 4.2f);
+        public static Rule BeachBar = new Rule(new List<string>(), 4.4f);
+        public static Rule ConstructionDate = new Rule(new List<string>(), 4.4f);
+        public static Rule BabyStrollers = new Rule(new List<string>(), 4.3f);
+        public static Rule Blender = new Rule(new List<string>(), 4.3f);
+        public static Rule HeatedPool = new Rule(new List<string>(), 4.4f);
+        public static Rule PoolsQuantity = new Rule(new List<string>(), 4.3f);
+        public static Rule BarsQuantity = new Rule(new List<string>(), 4.4f);
+        public static Rule KidsClub = new Rule(new List<string>(), 4.4f);
+        public static Rule KidsPot = new Rule(new List<string>(), 4.2f);
+        public static Rule AnimationShow = new Rule(new List<string>(), 4.3f);
+        public static Rule PeopleWithDisabilities = new Rule(new List<string>(), 4.4f);
+        public static Rule UltraAllInclusive = new Rule(new List<string>(), 4.4f);
+        public static Rule KidsFood = new Rule(new List<string>(), 4.6f);
+        public static Rule BikeRental = new Rule(new List<string>(), 4.2f);
+        public static Rule SportAndTraining = new Rule(new List<string>(), 4.23f);
+        public static Rule Rooms = new Rule(new List<string>(), 4.4f);
 
         private static List<string> InitializePickyRule()
             => new List<string>
