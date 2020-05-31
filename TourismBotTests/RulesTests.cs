@@ -8,7 +8,8 @@ namespace TourismBotTests
 {
     public class Tests
     {
-        private TelegramWorkerService _service = new TelegramWorkerService();
+        private static TelegramWorkerService _service = new TelegramWorkerService();
+        private static PrivateObject _privateObject = new PrivateObject(_service);
 
         [SetUp]
         public void Setup()
@@ -16,10 +17,18 @@ namespace TourismBotTests
         }
 
         [Test]
-        public void Test1()
+        public void IsTextContains_SimpleInput_Found()
         {
-            PrivateObject obj = new PrivateObject(_service);
-            var retVal = obj.Invoke("IsTextContains", "о еде", Rules.Food);
+            var retVal = _privateObject.Invoke("IsTextContains", "о еде", Rules.Food);
+            Assert.AreEqual(true, retVal);
+        }
+
+        [Test]
+        public void IsTextContains_ComplexInput_Found()
+        {
+            var retVal = _privateObject.Invoke("IsTextContains",
+                "Мы с женой хотим отдохнуть в Белеке, в хорошем отеле на берегу с хорошей едой. Номер должен быть обязательно с видом на море.",
+                Rules.Food);
             Assert.AreEqual(true, retVal);
         }
     }
