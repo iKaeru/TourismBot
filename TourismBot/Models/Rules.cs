@@ -4,8 +4,8 @@ namespace TourismBot.Models
 {
     public static class Rules
     {
-        public static Rule TheCheapest = new Rule(new List<string>(), 0.0f);
-        public static Rule Budgetary = new Rule(new List<string>(), 3.5f);
+        public static Rule TheCheapest = new Rule(InitializeTheCheapestRule(), 0.0f);
+        public static Rule Budgetary = new Rule(InitializeBudgetaryRule(), 3.5f);
         public static Rule Picky = new Rule(InitializePickyRule(), 4.5f);
         public static Rule Food { get; } = new Rule(InitializeFoodRule(), 4.5f);
         public static Rule Alcohol = new Rule(new List<string>(), 4.7f);
