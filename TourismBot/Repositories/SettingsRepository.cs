@@ -1,7 +1,10 @@
 namespace TourismBot.Repositories
 {
-    public class SettingsRepository
+    public static class SettingsRepository
     {
-        
+        public static string GetSetting()
+        {
+            
+        }
     }
 }

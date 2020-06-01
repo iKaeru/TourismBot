@@ -1,7 +1,9 @@
+using TourismBot.Repositories;
+
 namespace TourismBot.Models
 {
     public static class TelegramSettings
     {
-***REMOVED***
+        public static string BotToken { get; } = SettingsRepository.GetSetting();
     }
 }
