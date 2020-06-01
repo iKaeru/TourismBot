@@ -28,6 +28,29 @@ namespace TourismBot.Models
         public static Rule SportAndTraining = new Rule(new List<string>(), 4.23f);
         public static Rule Rooms = new Rule(new List<string>(), 4.4f);
 
+        private static List<string> InitializeTheCheapestRule()
+            => new List<string>
+            {
+                "самый недорогой",
+                "самый дешевый"
+            };
+
+        private static List<string> InitializeBudgetaryRule()
+            => new List<string>
+            {
+                "бюджетный",
+                "эконом класса",
+                "экономкласса",
+                "эконом-класса",
+                "экономичный",
+                "малобюджетный",
+                "низкоценовой",
+                "малостоящий",
+                "низкобюджетный",
+                "недорогой",
+                "дешёвый"
+            };
+
         private static List<string> InitializePickyRule()
             => new List<string>
             {
