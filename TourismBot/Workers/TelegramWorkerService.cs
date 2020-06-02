@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
-using Telegram.Bot.Types.Enums;
 using TourismBot.Models;
 
 namespace TourismBot.Workers
@@ -46,11 +45,18 @@ namespace TourismBot.Workers
             }
         }
 
-       private bool IsTextContains(string text, List<string> rules)
+        private float GetRuleRating(string text, Rule rule)
         {
-            foreach (var rule in rules)
+            if (IsTextContains(text, rule.AssociatedPhrases))
+                return rule.RatingValue;
+            return 0f;
+        }
+
+        private bool IsTextContains(string text, List<string> phrases)
+        {
+            foreach (var phrase in phrases)
             {
-                if (text.Contains(rule))
+                if (text.Contains(phrase))
                     return true;
             }
 

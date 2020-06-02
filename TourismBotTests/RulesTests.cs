@@ -19,7 +19,7 @@ namespace TourismBotTests
         [Test]
         public void IsTextContains_SimpleInput_Found()
         {
-            var retVal = _privateObject.Invoke("IsTextContains", "о еде", Rules.Food);
+            var retVal = _privateObject.Invoke("IsTextContains", "о еде", Rules.Food.AssociatedPhrases);
             Assert.AreEqual(true, retVal);
         }
 
@@ -27,9 +27,20 @@ namespace TourismBotTests
         public void IsTextContains_ComplexInput_Found()
         {
             var retVal = _privateObject.Invoke("IsTextContains",
-                "Мы с женой хотим отдохнуть в Белеке, в хорошем отеле на берегу с хорошей едой. Номер должен быть обязательно с видом на море.",
-                Rules.Food);
+                "Мы с женой хотим отдохнуть в Белеке, в хорошем отеле на берегу с хорошей едой. " +
+                "Номер должен быть обязательно с видом на море.",
+                Rules.Food.AssociatedPhrases);
             Assert.AreEqual(true, retVal);
+        }
+
+        [Test]
+        public void GetRuleRating_ComplexInput_CorrectValue()
+        {
+            var retVal = _privateObject.Invoke("GetRuleRating",
+                "Мы с женой хотим отдохнуть в Белеке, в хорошем отеле на берегу с хорошей едой. " +
+                "Номер должен быть обязательно с видом на море.",
+                Rules.Food);
+            Assert.AreEqual(4.5f, retVal);
         }
     }
 }
