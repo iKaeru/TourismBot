@@ -45,15 +45,23 @@ namespace TourismBot.Workers
             }
         }
 
-        private void GetMaximumRating(string text)
+        private float GetMaximumRating(string text)
         {
+            var resultRating = 0f;
+            var isRuleFound = false;
             Type type = typeof(Rules);
             foreach (var p in type.GetFields(System.Reflection.BindingFlags.Static |
                                              System.Reflection.BindingFlags.NonPublic))
             {
-                var v = p.GetValue(null);
-                Console.WriteLine(v.ToString());
+                var property = p.GetValue(null);
+                var ruleRating = GetRuleRating(text, property as Rule);
+                if (ruleRating != 0f) isRuleFound = true;
+                if (ruleRating > resultRating)
+                    resultRating = ruleRating;
             }
+
+            if (!isRuleFound) return 4f;
+            return resultRating;
         }
 
         private float GetRuleRating(string text, Rule rule)

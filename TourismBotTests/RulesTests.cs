@@ -42,5 +42,29 @@ namespace TourismBotTests
                 Rules.Food);
             Assert.AreEqual(4.5f, retVal);
         }
+
+        [Test]
+        public void GetMaximumRating_InputWithNoRules_CorrectValue()
+        {
+            var retVal = _privateObject.Invoke("GetMaximumRating",
+                "нам нужно что-то");
+            Assert.AreEqual(4f, retVal);
+        }
+        
+        [Test]
+        public void GetMaximumRating_InputWith1Rule_CorrectMaxValue()
+        {
+            var retVal = _privateObject.Invoke("GetMaximumRating",
+                "нам нужен бюджетный отель");
+            Assert.AreEqual(3.5f, retVal);
+        }
+        
+        [Test]
+        public void GetMaximumRating_InputWith2Rules_CorrectMaxValue()
+        {
+            var retVal = _privateObject.Invoke("GetMaximumRating",
+                "бюджетный лалала непривередливым гостям");
+            Assert.AreEqual(4.5f, retVal);
+        }
     }
 }
