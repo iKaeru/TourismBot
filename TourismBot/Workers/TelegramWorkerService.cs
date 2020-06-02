@@ -45,6 +45,17 @@ namespace TourismBot.Workers
             }
         }
 
+        private void GetMaximumRating(string text)
+        {
+            Type type = typeof(Rules);
+            foreach (var p in type.GetFields(System.Reflection.BindingFlags.Static |
+                                             System.Reflection.BindingFlags.NonPublic))
+            {
+                var v = p.GetValue(null);
+                Console.WriteLine(v.ToString());
+            }
+        }
+
         private float GetRuleRating(string text, Rule rule)
         {
             if (IsTextContains(text, rule.AssociatedPhrases))
