@@ -50,7 +50,7 @@ namespace TourismBotTests
                 "нам нужно что-то");
             Assert.AreEqual(4f, retVal);
         }
-        
+
         [Test]
         public void GetMaximumRating_InputWith1Rule_CorrectMaxValue()
         {
@@ -58,13 +58,29 @@ namespace TourismBotTests
                 "нам нужен бюджетный отель");
             Assert.AreEqual(3.5f, retVal);
         }
-        
+
         [Test]
         public void GetMaximumRating_InputWith2Rules_CorrectMaxValue()
         {
             var retVal = _privateObject.Invoke("GetMaximumRating",
                 "бюджетный лалала непривередливым гостям");
             Assert.AreEqual(4.5f, retVal);
+        }
+
+        [Test]
+        public void CountWordOccurence_InputWithOneOccurrence_Succes()
+        {
+            var retVal = _privateObject.Invoke("CountWordOccurence",
+                "отель с хорошей едой", Rules.Food.AssociatedPhrases);
+            Assert.AreEqual(1, retVal);
+        }
+
+        [Test]
+        public void CountWordOccurence_InputWithThreeOccurrence_Succes()
+        {
+            var retVal = _privateObject.Invoke("CountWordOccurence",
+                "отель с хорошей едой, не беспокоиться о еде, много еды", Rules.Food.AssociatedPhrases);
+            Assert.AreEqual(3, retVal);
         }
     }
 }

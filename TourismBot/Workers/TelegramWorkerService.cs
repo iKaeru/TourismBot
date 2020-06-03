@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
@@ -43,6 +45,13 @@ namespace TourismBot.Workers
                     text: "You said:\n" + e.Message.Text
                 );
             }
+        }
+
+        private int CountWordOccurence(string text, List<string> phrases)
+        {
+            return text.Split('.', ' ', ',')
+                .Where(phrases.Contains)
+                .Count();
         }
 
         private float GetMaximumRating(string text)
