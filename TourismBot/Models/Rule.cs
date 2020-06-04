@@ -5,9 +5,9 @@ namespace TourismBot.Models
     public class Rule
     {
         public List<string> AssociatedPhrases { get; }
-        public float RatingValue { get; }
+        public List<(int, float)> RatingValue { get; }
 
-        public Rule(List<string> associatedPhrases, float ratingValue)
+        public Rule(List<string> associatedPhrases, List<(int,float)> ratingValue)
         {
             AssociatedPhrases = associatedPhrases;
             RatingValue = ratingValue;

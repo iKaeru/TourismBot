@@ -76,7 +76,7 @@ namespace TourismBot.Workers
         private float GetRuleRating(string text, Rule rule)
         {
             if (IsTextContains(text, rule.AssociatedPhrases))
-                return rule.RatingValue;
+                return rule.RatingValue[0].Item2; // todo fix to iterate
             return 0f;
         }
 

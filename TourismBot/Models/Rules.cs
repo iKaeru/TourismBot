@@ -4,29 +4,29 @@ namespace TourismBot.Models
 {
     public static class Rules
     {
-        public static Rule TheCheapest { get; } = new Rule(InitializeTheCheapestRule(), 0.0f);
-        public static Rule Budgetary { get; } = new Rule(InitializeBudgetaryRule(), 3.5f);
-        public static Rule Picky { get; } = new Rule(InitializePickyRule(), 4.5f);
-        public static Rule Food { get; } = new Rule(InitializeFoodRule(), 4.5f);
-        public static Rule Alcohol { get; } = new Rule(new List<string>(), 4.7f);
-        public static Rule Quality { get; } = new Rule(new List<string>(), 4.3f);
-        public static Rule RestWithKids { get; } = new Rule(new List<string>(), 4.2f);
-        public static Rule BeachBar { get; } = new Rule(new List<string>(), 4.4f);
-        public static Rule ConstructionDate { get; } = new Rule(new List<string>(), 4.4f);
-        public static Rule BabyStrollers { get; } = new Rule(new List<string>(), 4.3f);
-        public static Rule Blender { get; } = new Rule(new List<string>(), 4.3f);
-        public static Rule HeatedPool { get; } = new Rule(new List<string>(), 4.4f);
-        public static Rule PoolsQuantity { get; } = new Rule(new List<string>(), 4.3f);
-        public static Rule BarsQuantity { get; } = new Rule(new List<string>(), 4.4f);
-        public static Rule KidsClub { get; } = new Rule(new List<string>(), 4.4f);
-        public static Rule KidsPot { get; } = new Rule(new List<string>(), 4.2f);
-        public static Rule AnimationShow { get; } = new Rule(new List<string>(), 4.3f);
-        public static Rule PeopleWithDisabilities { get; } = new Rule(new List<string>(), 4.4f);
-        public static Rule UltraAllInclusive { get; } = new Rule(new List<string>(), 4.4f);
-        public static Rule KidsFood { get; } = new Rule(new List<string>(), 4.6f);
-        public static Rule BikeRental { get; } = new Rule(new List<string>(), 4.2f);
-        public static Rule SportAndTraining { get; } = new Rule(new List<string>(), 4.23f);
-        public static Rule Rooms { get; } = new Rule(new List<string>(), 4.4f);
+        public static Rule TheCheapest { get; } = new Rule(InitializeTheCheapestRule(), InitializeCustomRating(0.0f));
+        public static Rule Budgetary { get; } = new Rule(InitializeBudgetaryRule(), InitializeCustomRating(3.5f));
+        public static Rule Picky { get; } = new Rule(InitializePickyRule(), InitializeCustomRating(4.5f));
+        public static Rule Food { get; } = new Rule(InitializeFoodRule(), InitializeFoodRating());
+        public static Rule Alcohol { get; } = new Rule(new List<string>(), InitializeCustomRating(4.7f));
+        public static Rule Quality { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
+        public static Rule RestWithKids { get; } = new Rule(new List<string>(), InitializeCustomRating(4.2f));
+        public static Rule BeachBar { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
+        public static Rule ConstructionDate { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
+        public static Rule BabyStrollers { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
+        public static Rule Blender { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
+        public static Rule HeatedPool { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
+        public static Rule PoolsQuantity { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
+        public static Rule BarsQuantity { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
+        public static Rule KidsClub { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
+        public static Rule KidsPot { get; } = new Rule(new List<string>(), InitializeCustomRating(4.2f));
+        public static Rule AnimationShow { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
+        public static Rule PeopleWithDisabilities { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
+        public static Rule UltraAllInclusive { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
+        public static Rule KidsFood { get; } = new Rule(new List<string>(), InitializeCustomRating(4.6f));
+        public static Rule BikeRental { get; } = new Rule(new List<string>(), InitializeCustomRating(4.2f));
+        public static Rule SportAndTraining { get; } = new Rule(new List<string>(), InitializeCustomRating(4.23f));
+        public static Rule Rooms { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
 
         private static List<string> InitializeTheCheapestRule()
             => new List<string>
@@ -89,5 +89,11 @@ namespace TourismBot.Models
                 "еда", "еды", "еде", "еду", "едой", "о еде",
                 "питание", "питания", "питаний", "питанию", "питанием", "о питании", "в питании"
             };
+
+        private static List<(int, float)> InitializeFoodRating()
+            => new List<(int, float)> {(1, 4.5f), (3, 4.7f),};
+
+        private static List<(int, float)> InitializeCustomRating(float value)
+            => new List<(int, float)> {(1, value)};
     }
 }
