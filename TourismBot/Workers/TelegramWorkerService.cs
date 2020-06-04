@@ -47,13 +47,6 @@ namespace TourismBot.Workers
             }
         }
 
-        private int CountWordOccurence(string text, List<string> phrases)
-        {
-            return text.Split('.', ' ', ',')
-                .Where(phrases.Contains)
-                .Count();
-        }
-
         private float GetMaximumRating(string text)
         {
             var resultRating = 0f;
@@ -63,21 +56,53 @@ namespace TourismBot.Workers
                                              System.Reflection.BindingFlags.NonPublic))
             {
                 var property = p.GetValue(null);
-                var ruleRating = GetRuleRating(text, property as Rule);
-                if (ruleRating != 0f) isRuleFound = true;
+                float ruleRating = default;
+                var ruleFound = TryGetRuleRating(text, property as Rule, out ruleRating);
                 if (ruleRating > resultRating)
                     resultRating = ruleRating;
+                if (ruleFound) isRuleFound = true;
             }
 
             if (!isRuleFound) return 4f;
             return resultRating;
         }
 
-        private float GetRuleRating(string text, Rule rule)
+        private bool TryGetRuleRating(string text, Rule rule, out float rating)
         {
-            if (IsTextContains(text, rule.AssociatedPhrases))
-                return rule.RatingValue[0].Item2; // todo fix to iterate
-            return 0f;
+            var occurrences = CountWordOccurence(text, rule.AssociatedPhrases);
+            if (occurrences > 0)
+            {
+                var ratingAmount = rule.RatingValue.Count;
+                rating = rule.RatingValue[0].Item2;
+
+                for (var i = 0; i < ratingAmount; i++)
+                {
+                    if (i + 1 >= ratingAmount)
+                    {
+                        if (occurrences >= rule.RatingValue[i].Item1)
+                            rating = rule.RatingValue[i].Item2;
+                        break;
+                    }
+
+                    if (occurrences >= rule.RatingValue[i].Item1 &&
+                        occurrences < rule.RatingValue[i + 1].Item1)
+                        rating = rule.RatingValue[i].Item2;
+                    else
+                        rating = rule.RatingValue[i + 1].Item2;
+                }
+
+                return true;
+            }
+
+            rating = 0f;
+            return false;
+        }
+
+        private int CountWordOccurence(string text, List<string> phrases)
+        {
+            return text.Split('.', ' ', ',')
+                .Where(phrases.Contains)
+                .Count();
         }
 
         private bool IsTextContains(string text, List<string> phrases)

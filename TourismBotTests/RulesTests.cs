@@ -34,15 +34,67 @@ namespace TourismBotTests
         }
 
         [Test]
-        public void GetRuleRating_ComplexInput_CorrectValue()
+        public void TryGetRuleRating_OneOccurrency_CorrectValue()
         {
-            var retVal = _privateObject.Invoke("GetRuleRating",
+            var result = 0f;
+            object[] args =
+            {
                 "Мы с женой хотим отдохнуть в Белеке, в хорошем отеле на берегу с хорошей едой. " +
                 "Номер должен быть обязательно с видом на море.",
-                Rules.Food);
-            Assert.AreEqual(4.5f, retVal);
+                Rules.Food, result
+            };
+            _privateObject.Invoke("TryGetRuleRating", args);
+            var outParameterValue = args[2];
+            Assert.AreEqual(4.5f, outParameterValue);
         }
 
+        [Test]
+        public void TryGetRuleRating_TwoOccurrency_CorrectValue()
+        {
+            var result = 0f;
+            object[] args =
+            {
+                "Мы с женой хотим отдохнуть в Белеке, в хорошем отеле на берегу с хорошей едой. " +
+                "Номер должен быть обязательно с видом на море. И чтобы можно было не думать о еде",
+                Rules.Food, result
+            };
+            _privateObject.Invoke("TryGetRuleRating", args);
+            var outParameterValue = args[2];
+            Assert.AreEqual(4.5f, outParameterValue);
+        }
+
+        [Test]
+        public void TryGetRuleRating_ThreeOccurrency_CorrectValue()
+        {
+            var result = 0f;
+            object[] args =
+            {
+                "Нужен отель на берегу с хорошей едой. " +
+                "Номер должен быть обязательно с видом на море. И чтобы можно было не думать о еде" +
+                "И еще раз с едой.",
+                Rules.Food, result
+            };
+            _privateObject.Invoke("TryGetRuleRating", args);
+            var outParameterValue = args[2];
+            Assert.AreEqual(4.5f, outParameterValue);
+        }
+        
+        [Test]
+        public void TryGetRuleRating_FourOccurrency_CorrectValue()
+        {
+            var result = 0f;
+            object[] args =
+            {
+                "Нужен отель на берегу с хорошей едой. " +
+                "Номер должен быть обязательно с видом на море. И чтобы можно было не думать о еде" +
+                "И еще раз с едой. Много еды.",
+                Rules.Food, result
+            };
+            _privateObject.Invoke("TryGetRuleRating", args);
+            var outParameterValue = args[2];
+            Assert.AreEqual(4.7f, outParameterValue);
+        }
+        
         [Test]
         public void GetMaximumRating_InputWithNoRules_CorrectValue()
         {
