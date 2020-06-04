@@ -17,7 +17,7 @@ namespace TourismBotTests
         }
 
         [Test]
-        public void TryGetRuleRating_OneOccurrency_CorrectValue()
+        public void TryGetRuleRating_OneOccurrence_CorrectValue()
         {
             var result = 0f;
             object[] args =
@@ -32,7 +32,7 @@ namespace TourismBotTests
         }
 
         [Test]
-        public void TryGetRuleRating_TwoOccurrency_CorrectValue()
+        public void TryGetRuleRating_TwoOccurrence_CorrectValue()
         {
             var result = 0f;
             object[] args =
@@ -47,7 +47,7 @@ namespace TourismBotTests
         }
 
         [Test]
-        public void TryGetRuleRating_ThreeOccurrency_CorrectValue()
+        public void TryGetRuleRating_ThreeOccurrence_CorrectValue()
         {
             var result = 0f;
             object[] args =
@@ -63,7 +63,7 @@ namespace TourismBotTests
         }
         
         [Test]
-        public void TryGetRuleRating_FourOccurrency_CorrectValue()
+        public void TryGetRuleRating_FourOccurrence_CorrectValue()
         {
             var result = 0f;
             object[] args =

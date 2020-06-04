@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
+using Telegram.Bot.Types.Enums;
 using TourismBot.Models;
 
 namespace TourismBot.Workers
@@ -40,14 +40,16 @@ namespace TourismBot.Workers
             {
                 Console.WriteLine($"Received a text message in chat {e.Message.Chat.Id}.");
 
+                var ratingRetrieved = GetMaximumRating(e.Message.Text);
                 await _botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
-                    text: "You said:\n" + e.Message.Text
+                    text: $"По вашему запросу получен рейтинг: *{ratingRetrieved}*",
+                    ParseMode.Markdown
                 );
             }
         }
 
-        private float GetMaximumRating(string text)
+        private static float GetMaximumRating(string text)
         {
             var resultRating = 0f;
             var isRuleFound = false;
@@ -67,7 +69,7 @@ namespace TourismBot.Workers
             return resultRating;
         }
 
-        private bool TryGetRuleRating(string text, Rule rule, out float rating)
+        private static bool TryGetRuleRating(string text, Rule rule, out float rating)
         {
             var occurrences = CountWordOccurence(text, rule.AssociatedPhrases);
             if (occurrences > 0)
@@ -98,7 +100,7 @@ namespace TourismBot.Workers
             return false;
         }
 
-        private int CountWordOccurence(string text, List<string> phrases)
+        private static int CountWordOccurence(string text, List<string> phrases)
         {
             return text.Split('.', ' ', ',')
                 .Where(phrases.Contains)
