@@ -104,16 +104,5 @@ namespace TourismBot.Workers
                 .Where(phrases.Contains)
                 .Count();
         }
-
-        private bool IsTextContains(string text, List<string> phrases)
-        {
-            foreach (var phrase in phrases)
-            {
-                if (text.Contains(phrase))
-                    return true;
-            }
-
-            return false;
-        }
     }
 }

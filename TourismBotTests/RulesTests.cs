@@ -17,23 +17,6 @@ namespace TourismBotTests
         }
 
         [Test]
-        public void IsTextContains_SimpleInput_Found()
-        {
-            var retVal = _privateObject.Invoke("IsTextContains", "о еде", Rules.Food.AssociatedPhrases);
-            Assert.AreEqual(true, retVal);
-        }
-
-        [Test]
-        public void IsTextContains_ComplexInput_Found()
-        {
-            var retVal = _privateObject.Invoke("IsTextContains",
-                "Мы с женой хотим отдохнуть в Белеке, в хорошем отеле на берегу с хорошей едой. " +
-                "Номер должен быть обязательно с видом на море.",
-                Rules.Food.AssociatedPhrases);
-            Assert.AreEqual(true, retVal);
-        }
-
-        [Test]
         public void TryGetRuleRating_OneOccurrency_CorrectValue()
         {
             var result = 0f;
@@ -102,7 +85,15 @@ namespace TourismBotTests
                 "нам нужно что-то");
             Assert.AreEqual(4f, retVal);
         }
-
+        
+        [Test]
+        public void GetMaximumRating_InputWith0Rules_CorrectMaxValue()
+        {
+            var retVal = _privateObject.Invoke("GetMaximumRating",
+                "лалала что-то надо хз что");
+            Assert.AreEqual(4f, retVal);
+        }
+        
         [Test]
         public void GetMaximumRating_InputWith1Rule_CorrectMaxValue()
         {
