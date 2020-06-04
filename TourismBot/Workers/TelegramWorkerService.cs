@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
@@ -18,18 +19,17 @@ namespace TourismBot.Workers
             _botClient = new TelegramBotClient(TelegramSettings.BotToken);
         }
 
-        public async Task ExecuteCore()
+        public void ExecuteCore()
         {
             while (true)
             {
-                await ReceiveMessage();
-                await Task.Delay(10 * 1000);
+                ReceiveMessage();
+                Thread.Sleep(int.MaxValue);
             }
         }
 
-        public async Task ReceiveMessage()
+        private void ReceiveMessage()
         {
-            var me = await _botClient.GetMeAsync();
             _botClient.OnMessage += Bot_OnMessage;
             _botClient.StartReceiving();
         }
@@ -39,7 +39,7 @@ namespace TourismBot.Workers
             if (e.Message.Text != null)
             {
                 Console.WriteLine($"Received a text message in chat {e.Message.Chat.Id}.");
-
+                
                 var ratingRetrieved = GetMaximumRating(e.Message.Text);
                 await _botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
