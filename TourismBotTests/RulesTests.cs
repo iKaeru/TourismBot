@@ -10,12 +10,13 @@ namespace TourismBotTests
 {
     public class Tests
     {
-        private static readonly PrivateType RulesPrivate = new PrivateType(typeof(NounCollection));
+        private static readonly PrivateType RulesPrivate = new PrivateType(typeof(NounAndAdjectveCollection));
         private static readonly PrivateType TelegramWorkerPrivate = new PrivateType(typeof(TelegramWorkerService));
         private static readonly string CountOccurenceName = "CountWordOccurence";
         private static readonly string GetMaxRatingName = "GetMaximumRating";
         private static readonly string TryGetRatingName = "TryGetRuleRating";
-        private static readonly string GetDeclensionName = "GetNounDeclension";
+        private static readonly string GetNounDeclensionName = "GetNounDeclension";
+        private static readonly string GetAdjectiveDeclensionName = "GetAdjectiveDeclension";
 
         [SetUp]
         public void Setup()
@@ -133,21 +134,33 @@ namespace TourismBotTests
         }
 
         [Test]
-        public void GetNounDeclension_WordWithoutPluralAndWithDuplicates()
+        public void GetNounDeclension_WordWithoutPluralAndWithDuplicates_Success()
         {
-            var obj = RulesPrivate.InvokeStatic(GetDeclensionName, "еда");
+            var obj = RulesPrivate.InvokeStatic(GetNounDeclensionName, "еда");
             var expected = new List<string> {"еда", "еды", "еде", "еду", "едой"};
             CollectionAssert.AreEquivalent(expected, (List<string>) obj);
         }
 
         [Test]
-        public void GetNounDeclension_WordWithPluralAndWithDuplicates()
+        public void GetNounDeclension_WordWithPluralAndWithDuplicates_Success()
         {
-            var obj = RulesPrivate.InvokeStatic(GetDeclensionName, "компьютер");
+            var obj = RulesPrivate.InvokeStatic(GetNounDeclensionName, "компьютер");
             var expected = new List<string>
             {
                 "компьютер", "компьютера", "компьютеру", "компьютером", "компьютере",
                 "компьютеры", "компьютеров", "компьютерам", "компьютерами", "компьютерах"
+            };
+            CollectionAssert.AreEquivalent(expected, (List<string>) obj);
+        }
+
+        [Test]
+        public void GetAdjectiveDeclensionName_WordWithPluralAndWithDuplicates_Success()
+        {
+            var obj = RulesPrivate.InvokeStatic(GetAdjectiveDeclensionName, "красивый");
+            var expected = new List<string>
+            {
+                "красивый", "красивого", "красивому", "красивым", "красивом",
+                "красивые", "красивых", "красивым", "красивыми"
             };
             CollectionAssert.AreEquivalent(expected, (List<string>) obj);
         }
