@@ -55,25 +55,25 @@ namespace TourismBot.Models
         private static List<string> InitializePickyRule()
         {
             var result = new List<string>();
-            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("непривередливый"));
-            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("привередливый")
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("непривередливый"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("привередливый")
                 .Select(word => $"не {word}")); // include typos
-            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("неприхотливый"));
-            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("прихотливый")
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("неприхотливый"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("прихотливый")
                 .Select(word => $"не {word}")); // include typos
-            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("нетребовательный"));
-            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("требовательный")
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("нетребовательный"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("требовательный")
                 .Select(word => $"не {word}")); // include typos
-            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("некапризный"));
-            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("капризный")
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("некапризный"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("капризный")
                 .Select(word => $"не {word}")); // include typos
-            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("неразборчивый"));
-            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("разборчивый")
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("неразборчивый"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("разборчивый")
                 .Select(word => $"не {word}")); // include typos
-            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("непритязательный"));
-            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("притязательный")
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("непритязательный"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("притязательный")
                 .Select(word => $"не {word}")); // include typos
-            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("беспритязательный"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("беспритязательный"));
             var temp = new List<string>
             {
                 "предъявляющий", "предъявляющего", "предъявляющему", "предъявляющим", "предъявляющем",
@@ -86,8 +86,8 @@ namespace TourismBot.Models
         private static List<string> InitializeFoodRule()
         {
             var result = new List<string>();
-            result.AddRange(NounAndAdjectveCollection.GetNounDeclension("еда"));
-            result.AddRange(NounAndAdjectveCollection.GetNounDeclension("питание"));
+            result.AddRange(WordsCollection.GetNounDeclension("еда"));
+            result.AddRange(WordsCollection.GetNounDeclension("питание"));
             result.AddRange(new List<string> {"поесть", "поем", "поешь", "поест", "поедим", "поедите", "поедят"});
             return result;
         }

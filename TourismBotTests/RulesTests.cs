@@ -11,13 +11,14 @@ namespace TourismBotTests
 {
     public class Tests
     {
-        private static readonly PrivateType RulesPrivate = new PrivateType(typeof(NounAndAdjectveCollection));
+        private static readonly PrivateType RulesPrivate = new PrivateType(typeof(WordsCollection));
         private static readonly PrivateType TelegramWorkerPrivate = new PrivateType(typeof(TelegramWorkerService));
         private static readonly string CountOccurenceName = "CountWordOccurence";
         private static readonly string GetMaxRatingName = "GetMaximumRating";
         private static readonly string TryGetRatingName = "TryGetRuleRating";
         private static readonly string GetNounDeclensionName = "GetNounDeclension";
         private static readonly string GetAdjectiveDeclensionName = "GetAdjectiveDeclension";
+        private static readonly string GetPhraseDeclensionName = "GetPhraseDeclension";
 
         [SetUp]
         public void Setup()
@@ -179,6 +180,20 @@ namespace TourismBotTests
             };
 
             CollectionAssert.AreEquivalent(expected, result);
+        }
+
+
+        [Test]
+        public void GetPhraseDeclensionName_SimplePhrase_Success()
+        {
+            var obj = RulesPrivate.InvokeStatic(GetPhraseDeclensionName, "самый недорогой");
+            var expected = new List<string>
+            {
+                "самый недорогой", "самого недорогого", "самому недорогому", "самым недорогим", "самом недорогом",
+                "самые недорогие", "самых недорогих", "самыми недорогими"
+            };
+
+            CollectionAssert.AreEquivalent(expected, (List<string>) obj);
         }
     }
 }
