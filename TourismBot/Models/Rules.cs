@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TourismBot.Models
 {
@@ -52,44 +53,45 @@ namespace TourismBot.Models
             };
 
         private static List<string> InitializePickyRule()
-            => new List<string>
+        {
+            var result = new List<string>();
+            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("непривередливый"));
+            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("привередливый")
+                .Select(word => $"не {word}")); // include typos
+            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("неприхотливый"));
+            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("прихотливый")
+                .Select(word => $"не {word}")); // include typos
+            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("нетребовательный"));
+            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("требовательный")
+                .Select(word => $"не {word}")); // include typos
+            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("некапризный"));
+            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("капризный")
+                .Select(word => $"не {word}")); // include typos
+            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("неразборчивый"));
+            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("разборчивый")
+                .Select(word => $"не {word}")); // include typos
+            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("непритязательный"));
+            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("притязательный")
+                .Select(word => $"не {word}")); // include typos
+            result.AddRange(NounAndAdjectveCollection.GetAdjectiveDeclension("беспритязательный"));
+            var temp = new List<string>
             {
-                "непривередливые", "непривередливый", "непривередливого", "непривередливых", "непривередливому",
-                "непривередливым", "непривередливыми",
-                "не привередливые", "не привередливый", "не привередливого", "не привередливых", "не привередливому",
-                "не привередливым", "не привередливыми",
-                "неприхотливый", "неприхотливые", "неприхотливого", "неприхотливых", "неприхотливому", "неприхотливым",
-                "неприхотливыми",
-                "не прихотливый", "не прихотливые", "не прихотливого", "не прихотливых", "не прихотливому",
-                "не прихотливым", "не прихотливыми",
-                "нетребовательный", "нетребовательные", "нетребовательного", "нетребовательных", "нетребовательному",
-                "нетребовательным", "нетребовательными",
-                "не требовательный", "не требовательные", "не требовательного", "не требовательных",
-                "не требовательному", "не требовательным", "не требовательными",
-                "некапризный", "некапризные", "некапризного", "некапризных", "некапризному", "некапризным",
-                "некапризными",
-                "не капризный", "не капризные", "не капризного", "не капризных", "не капризному", "не капризным",
-                "не капризными",
-                "неразборчивый", "неразборчивые", "неразборчивого", "неразборчивых", "неразборчивому", "неразборчивым",
-                "неразборчивыми",
-                "не разборчивый", "не разборчивые", "не разборчивого", "не разборчивых", "не разборчивому",
-                "не разборчивым", "не разборчивыми",
-                "беспритязательный", "беспритязательные", "беспритязательного", "беспритязательных",
-                "беспритязательному", "беспритязательным", "беспритязательными",
-                "непритязательный", "непритязательные", "непритязательного", "непритязательных", "непритязательному",
-                "непритязательным", "непритязательными",
-                "не притязательный", "не притязательные", "не притязательного", "не притязательных",
-                "не притязательному", "не притязательным", "не притязательными",
-                "не предъявляющий больших требований",
+                "предъявляющий", "предъявляющего", "предъявляющему", "предъявляющим", "предъявляющем",
+                "предъявляющие", "предъявляющих", "предъявляющими"
             };
+            result.AddRange(temp.Select(word => $"не {word} больших требований"));
+            return result;
+        }
 
         private static List<string> InitializeFoodRule()
-            => new List<string>
-            {
-                "еда", "еды", "еде", "еду", "едой", "о еде",
-                "питание", "питания", "питаний", "питанию", "питанием", "о питании", "в питании",
-                "поесть", "поем", "поешь", "поест", "поедим", "поедите", "поедят"
-            };
+        {
+            var result = new List<string>();
+            result.AddRange(NounAndAdjectveCollection.GetNounDeclension("еда"));
+            result.AddRange(NounAndAdjectveCollection.GetNounDeclension("питание"));
+            result.AddRange(new List<string> {"поесть", "поем", "поешь", "поест", "поедим", "поедите", "поедят"});
+            return result;
+        }
+
 
         private static List<(int, float)> InitializeFoodRating()
             => new List<(int, float)> {(1, 4.5f), (3, 4.7f),};

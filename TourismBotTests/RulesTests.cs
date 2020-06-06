@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using TourismBot.Models;
@@ -160,9 +161,24 @@ namespace TourismBotTests
             var expected = new List<string>
             {
                 "красивый", "красивого", "красивому", "красивым", "красивом",
-                "красивые", "красивых", "красивым", "красивыми"
+                "красивые", "красивых", "красивыми"
             };
             CollectionAssert.AreEquivalent(expected, (List<string>) obj);
+        }
+
+        [Test]
+        public void GetAdjectiveDeclensionName_LINQSelect_Success()
+        {
+            var obj = RulesPrivate.InvokeStatic(GetAdjectiveDeclensionName, "привередливый");
+            var result = ((List<string>) obj).Select(word => $"не {word}");
+
+            var expected = new List<string>
+            {
+                "не привередливый", "не привередливого", "не привередливому", "не привередливом",
+                "не привередливые", "не привередливых", "не привередливым", "не привередливыми"
+            };
+
+            CollectionAssert.AreEquivalent(expected, result);
         }
     }
 }

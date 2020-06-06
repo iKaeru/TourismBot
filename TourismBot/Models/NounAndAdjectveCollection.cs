@@ -10,27 +10,27 @@ namespace TourismBot.Models
         private static CyrNounCollection _cyrNounCollection = new CyrNounCollection();
         private static CyrAdjectiveCollection _cyrAdjectiveCollection = new CyrAdjectiveCollection();
 
-        private static List<string> GetNounDeclension(string word)
+        public static List<string> GetNounDeclension(string word)
         {
             var noun = _cyrNounCollection.Get(word, out CasesEnum @case, out NumbersEnum number);
             var singular = noun.Decline().ToArray();
             var plural = noun.DeclinePlural().ToArray();
             var result = new List<string>();
-            result.AddRange(singular.Where(singularWord => !string.IsNullOrEmpty(singularWord)).Distinct());
-            result.AddRange(plural.Where(singularWord => !string.IsNullOrEmpty(singularWord)).Distinct());
-            return result;
+            result.AddRange(singular.Where(singularWord => !string.IsNullOrEmpty(singularWord)));
+            result.AddRange(plural.Where(singularWord => !string.IsNullOrEmpty(singularWord)));
+            return result.Distinct().ToList();
         }
 
-        private static List<string> GetAdjectiveDeclension(string word)
+        public static List<string> GetAdjectiveDeclension(string word)
         {
             var adjective = _cyrAdjectiveCollection.Get(word, out GendersEnum gender, out CasesEnum @case,
                 out NumbersEnum number, out AnimatesEnum animate);
             var singular = adjective.Decline(gender, animate).ToArray();
             var plural = adjective.DeclinePlural(animate).ToArray();
             var result = new List<string>();
-            result.AddRange(singular.Where(singularWord => !string.IsNullOrEmpty(singularWord)).Distinct());
-            result.AddRange(plural.Where(singularWord => !string.IsNullOrEmpty(singularWord)).Distinct());
-            return result;
+            result.AddRange(singular.Where(singularWord => !string.IsNullOrEmpty(singularWord)));
+            result.AddRange(plural.Where(singularWord => !string.IsNullOrEmpty(singularWord)));
+            return result.Distinct().ToList();
         }
     }
 }
