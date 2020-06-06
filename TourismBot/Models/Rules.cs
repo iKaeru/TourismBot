@@ -29,28 +29,33 @@ namespace TourismBot.Models
         public static Rule SportAndTraining { get; } = new Rule(new List<string>(), InitializeCustomRating(4.23f));
         public static Rule Rooms { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
 
+        #region vocabulary
+
         private static List<string> InitializeTheCheapestRule()
-            => new List<string>
-            {
-                "самый недорогой",
-                "самый дешевый"
-            };
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetPhraseDeclension("самый недорогой"));
+            result.AddRange(WordsCollection.GetPhraseDeclension("самый дешевый"));
+            result.AddRange(WordsCollection.GetPhraseDeclension("самый малостоящий"));
+            return result;
+        }
 
         private static List<string> InitializeBudgetaryRule()
-            => new List<string>
-            {
-                "бюджетный",
-                "эконом класса",
-                "экономкласса",
-                "эконом-класса",
-                "экономичный",
-                "малобюджетный",
-                "низкоценовой",
-                "малостоящий",
-                "низкобюджетный",
-                "недорогой",
-                "дешёвый"
-            };
+        {
+            var result = new List<string>();
+            var budgetary = WordsCollection.GetAdjectiveDeclension("бюджетный");
+            result.AddRange(budgetary);
+            result.AddRange(budgetary.Select(word => $"мало{word}")); // малобюджетный
+            result.AddRange(budgetary.Select(word => $"низко{word}")); // низкобюджетный
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("экономичный"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("ценовой")
+                .Select(word => $"низко{word}")); // низкоценовой
+            var economyClass = WordsCollection.GetNounDeclension("класс");
+            result.AddRange(economyClass.Select(word => $"эконом{word}"));
+            result.AddRange(economyClass.Select(word => $"эконом {word}")); // include typos
+            result.AddRange(economyClass.Select(word => $"эконом-{word}")); // include typos
+            return result;
+        }
 
         private static List<string> InitializePickyRule()
         {
@@ -92,11 +97,16 @@ namespace TourismBot.Models
             return result;
         }
 
+        #endregion vocabulary
+
+        #region rating
 
         private static List<(int, float)> InitializeFoodRating()
             => new List<(int, float)> {(1, 4.5f), (3, 4.7f),};
 
         private static List<(int, float)> InitializeCustomRating(float value)
             => new List<(int, float)> {(1, value)};
+
+        #endregion rating
     }
 }
