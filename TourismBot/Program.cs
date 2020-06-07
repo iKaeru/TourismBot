@@ -8,7 +8,7 @@ namespace TourismBot
         static void Main(string[] args)
         {
             WordsCollection.InitializeWordsCollection();
-            var worker = new TelegramWorkerService();
+            var worker = new TelegramWorkerService(new Logger.Logger());
             worker.ExecuteCore();
         }
     }

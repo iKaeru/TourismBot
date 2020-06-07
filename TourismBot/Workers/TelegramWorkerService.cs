@@ -11,10 +11,12 @@ namespace TourismBot.Workers
     public class TelegramWorkerService
     {
         private static ITelegramBotClient _botClient;
+        private static Logger.Logger _logger;
 
-        public TelegramWorkerService()
+        public TelegramWorkerService(Logger.Logger logger)
         {
             _botClient = new TelegramBotClient(TelegramSettings.BotToken);
+            _logger = logger;
         }
 
         public void ExecuteCore()
@@ -36,14 +38,25 @@ namespace TourismBot.Workers
         {
             if (e.Message.Text != null)
             {
-                Console.WriteLine($"Received a text message in chat {e.Message.Chat.Id}.");
-
                 var ratingRetrieved = GetMaximumRating(e.Message.Text);
+                var resultAnswer = $"По вашему запросу получен рейтинг: *{ratingRetrieved}*";
                 await _botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
-                    text: $"По вашему запросу получен рейтинг: *{ratingRetrieved}*",
+                    text: resultAnswer,
                     ParseMode.Markdown
                 );
+
+                var logInfo = new LoggingInfo
+                {
+                    ChatId = e.Message.Chat.Id,
+                    FirstName = e.Message.Chat.FirstName,
+                    LastName = e.Message.Chat.LastName,
+                    UserName = e.Message.Chat.Username,
+                    Question = e.Message.Text,
+                    Answer = resultAnswer,
+                    Date = e.Message.Date
+                };
+                _logger.OutputWriter(logInfo);
             }
         }
 
