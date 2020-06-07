@@ -13,7 +13,10 @@ namespace TourismBot.Models
         public static Rule Quality { get; } = new Rule(InitializeQualityRule(), InitializeCustomRating(4.3f));
         public static Rule RestWithKids { get; } = new Rule(InitializeRestWithKidsRule(), InitializeCustomRating(4.2f));
         public static Rule BeachBar { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
-        public static Rule ConstructionDate { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
+
+        public static Rule ConstructionDate { get; } =
+            new Rule(InitializeConstructionDateRule(), InitializeCustomRating(4.4f));
+
         public static Rule BabyStrollers { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
         public static Rule Blender { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
         public static Rule HeatedPool { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
@@ -177,6 +180,30 @@ namespace TourismBot.Models
             result.AddRange(WordsCollection.GetNounDeclension("младенец"));
             result.AddRange(WordsCollection.GetNounDeclension("отпрыск"));
             result.AddRange(WordsCollection.GetAdjectiveDeclension("детский"));
+            return result;
+        }
+
+        private static List<string> InitializeConstructionDateRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetNounDeclension("постройка"));
+            result.AddRange(WordsCollection.GetNounDeclension("строительство"));
+            result.AddRange(WordsCollection.GetNounDeclension("возведение"));
+            result.AddRange(WordsCollection.GetNounDeclension("воздвиженье"));
+            result.AddRange(WordsCollection.GetNounDeclension("реновация"));
+            result.AddRange(WordsCollection.GetNounDeclension("обновление"));
+            result.AddRange(WordsCollection.GetNounDeclension("ремонт"));
+            result.AddRange(WordsCollection.GetNounDeclension("ремонтирование"));
+            result.AddRange(new List<string>
+            {
+                "построен", "воздвижен", "воздвигнут", "отремотирован", "ремонтирован",
+                "обновлён", "обновлен", "отсроен", "воздвигнут",
+                "построенный", "построенные", "построенного", "построенных",
+                "построенному", "построенным", "построенными", "построенном",
+            });
+
+            //  воздвиженный отремотированный др прилагательные
+
             return result;
         }
 
