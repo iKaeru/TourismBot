@@ -188,6 +188,7 @@ namespace TourismBot.Models
             var result = new List<string>();
             result.AddRange(WordsCollection.GetNounDeclension("постройка"));
             result.AddRange(WordsCollection.GetNounDeclension("строительство"));
+            result.AddRange(WordsCollection.GetNounDeclension("эксплуатация"));
             result.AddRange(WordsCollection.GetNounDeclension("возведение"));
             result.AddRange(WordsCollection.GetNounDeclension("воздвиженье"));
             result.AddRange(WordsCollection.GetNounDeclension("реновация"));
@@ -200,10 +201,13 @@ namespace TourismBot.Models
                 "обновлён", "обновлен", "отсроен", "воздвигнут",
                 "построенный", "построенные", "построенного", "построенных",
                 "построенному", "построенным", "построенными", "построенном",
+                "воздвиженный", "воздвиженные", "воздвиженного", "воздвиженных",
+                "воздвиженному", "воздвиженным", "воздвиженными", "воздвиженном",
+                "отремотированный", "отремотированные", "отремотированного", "отремотированных",
+                "отремотированному", "отремотированным", "отремотированными", "отремотированном",
+                "эксплуатируемый", "эксплуатируемые", "эксплуатируемого", "эксплуатируемых",
+                "эксплуатируемому", "эксплуатируемым", "эксплуатируемыми", "эксплуатируемом",
             });
-
-            //  воздвиженный отремотированный др прилагательные
-
             return result;
         }
 
