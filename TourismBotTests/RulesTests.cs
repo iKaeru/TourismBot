@@ -182,7 +182,6 @@ namespace TourismBotTests
             CollectionAssert.AreEquivalent(expected, result);
         }
 
-
         [Test]
         public void GetPhraseDeclensionName_SimplePhrase_Success()
         {
@@ -194,6 +193,21 @@ namespace TourismBotTests
             };
 
             CollectionAssert.AreEquivalent(expected, (List<string>) obj);
+        }
+
+
+        [Test]
+        public void GetPhraseDeclensionName_CheapestTypo_Success()
+        {
+            var obj = RulesPrivate.InvokeStatic(GetPhraseDeclensionName, "самый дешёвый");
+            var result = ((List<string>) obj).Select(phrase => phrase.Replace('ё', 'е'));
+            var expected = new List<string>
+            {
+                "самый дешевый", "самого дешевого", "самому дешевому", "самым дешевым", "самом дешевом",
+                "самые дешевые", "самых дешевых", "самыми дешевыми",
+            };
+
+            CollectionAssert.AreEquivalent(expected, result);
         }
     }
 }

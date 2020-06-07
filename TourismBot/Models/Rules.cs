@@ -34,9 +34,13 @@ namespace TourismBot.Models
         private static List<string> InitializeTheCheapestRule()
         {
             var result = new List<string>();
+            var cheapest = WordsCollection.GetPhraseDeclension("самый дешёвый");
             result.AddRange(WordsCollection.GetPhraseDeclension("самый недорогой"));
-            result.AddRange(WordsCollection.GetPhraseDeclension("самый дешевый"));
             result.AddRange(WordsCollection.GetPhraseDeclension("самый малостоящий"));
+            result.AddRange(cheapest);
+            result.AddRange(cheapest.Select(phrase =>
+                phrase.Replace('ё', 'е'))); // include typos
+
             return result;
         }
 
@@ -54,6 +58,7 @@ namespace TourismBot.Models
             result.AddRange(economyClass.Select(word => $"эконом{word}"));
             result.AddRange(economyClass.Select(word => $"эконом {word}")); // include typos
             result.AddRange(economyClass.Select(word => $"эконом-{word}")); // include typos
+            result.AddRange(WordsCollection.GetPhraseDeclension("экономичный класс"));
             return result;
         }
 
@@ -93,6 +98,7 @@ namespace TourismBot.Models
             var result = new List<string>();
             result.AddRange(WordsCollection.GetNounDeclension("еда"));
             result.AddRange(WordsCollection.GetNounDeclension("питание"));
+            result.AddRange(WordsCollection.GetNounDeclension("блюдо"));
             result.AddRange(new List<string> {"поесть", "поем", "поешь", "поест", "поедим", "поедите", "поедят"});
             return result;
         }

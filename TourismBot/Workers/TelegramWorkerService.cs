@@ -38,7 +38,7 @@ namespace TourismBot.Workers
             if (e.Message.Text != null)
             {
                 Console.WriteLine($"Received a text message in chat {e.Message.Chat.Id}.");
-                
+
                 var ratingRetrieved = GetMaximumRating(e.Message.Text);
                 await _botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
@@ -56,6 +56,11 @@ namespace TourismBot.Workers
             foreach (var p in type.GetFields(System.Reflection.BindingFlags.Static |
                                              System.Reflection.BindingFlags.NonPublic))
             {
+                if (p.Name == $"<{nameof(Rules.TheCheapest)}>k__BackingField")
+                {
+                    // TODO: the onliest rule!
+                }
+
                 var property = p.GetValue(null);
                 float ruleRating = default;
                 var ruleFound = TryGetRuleRating(text, property as Rule, out ruleRating);
