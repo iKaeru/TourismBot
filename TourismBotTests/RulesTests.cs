@@ -120,6 +120,22 @@ namespace TourismBotTests
         }
 
         [Test]
+        public void GetMaximumRating_InputWithCheapestTypo_CorrectMaxValue()
+        {
+            var retVal = TelegramWorkerPrivate.InvokeStatic(GetMaxRatingName,
+                "самый дешевый отель");
+            Assert.AreEqual(0f, retVal);
+        }
+
+        [Test]
+        public void GetMaximumRating_InputWithCheapest_CorrectMaxValue()
+        {
+            var retVal = TelegramWorkerPrivate.InvokeStatic(GetMaxRatingName,
+                "самый дешёвый отель");
+            Assert.AreEqual(0f, retVal);
+        }
+
+        [Test]
         public void CountWordOccurence_InputWithOneOccurrence_Succes()
         {
             var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
@@ -133,6 +149,23 @@ namespace TourismBotTests
             var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
                 "отель с хорошей едой, не беспокоиться о еде, много еды", Rules.Food.AssociatedPhrases);
             Assert.AreEqual(3, retVal);
+        }
+
+        [Test]
+        public void CountWordOccurence_InputWithPhrase_Succes()
+        {
+            var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
+                "самый дешёвый отель", Rules.TheCheapest.AssociatedPhrases);
+            Assert.AreEqual(1, retVal);
+        }
+
+        [Test]
+        public void CountWordOccurence_InputWithSeveralPhrase_Succes()
+        {
+            var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
+                "Нас интересует самый малостоящий отель. Только самый дешёвый отель",
+                Rules.TheCheapest.AssociatedPhrases);
+            Assert.AreEqual(2, retVal);
         }
 
         [Test]

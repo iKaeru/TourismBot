@@ -56,14 +56,18 @@ namespace TourismBot.Workers
             foreach (var p in type.GetFields(System.Reflection.BindingFlags.Static |
                                              System.Reflection.BindingFlags.NonPublic))
             {
-                if (p.Name == $"<{nameof(Rules.TheCheapest)}>k__BackingField")
-                {
-                    // TODO: the onliest rule!
-                }
-
                 var property = p.GetValue(null);
                 float ruleRating = default;
                 var ruleFound = TryGetRuleRating(text, property as Rule, out ruleRating);
+                Console.WriteLine($"rule rating {ruleRating}");
+                Console.WriteLine($"rule found {ruleFound}");
+
+                if (p.Name == $"<{nameof(Rules.TheCheapest)}>k__BackingField" && ruleFound)
+                {
+                    Console.WriteLine($"!---! rule rating {ruleRating}");
+                    return ruleRating;
+                }
+
                 if (ruleRating > resultRating)
                     resultRating = ruleRating;
                 if (ruleFound) isRuleFound = true;
@@ -106,9 +110,12 @@ namespace TourismBot.Workers
 
         private static int CountWordOccurence(string text, List<string> phrases)
         {
-            return text.Split('.', ' ', ',')
-                .Where(phrases.Contains)
-                .Count();
+            var counter = 0;
+            phrases.ForEach(phrase =>
+            {
+                if (text.Contains(phrase)) counter++;
+            });
+            return counter;
         }
     }
 }
