@@ -17,9 +17,11 @@ namespace TourismBot.Models
         public static Rule ConstructionDate { get; } =
             new Rule(InitializeConstructionDateRule(), InitializeCustomRating(4.4f));
 
-        public static Rule BabyStrollers { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
-        public static Rule Blender { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
-        public static Rule HeatedPool { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
+        public static Rule BabyStrollers { get; } =
+            new Rule(InitializeBabyStrollersRule(), InitializeCustomRating(4.3f));
+
+        public static Rule Blender { get; } = new Rule(InitializeBlenderRule(), InitializeCustomRating(4.3f));
+        public static Rule HeatedPool { get; } = new Rule(InitializeHeatedPoolRule(), InitializeCustomRating(4.4f));
         public static Rule PoolsQuantity { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
         public static Rule BarsQuantity { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
         public static Rule KidsClub { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
@@ -217,6 +219,36 @@ namespace TourismBot.Models
             var bar = WordsCollection.GetNounDeclension("бар");
             result.AddRange(bar.Select(word => word.Insert(word.Length, " на пляже")));
             result.AddRange(new List<string> {"бар есть на пляже", "бар был на пляже", "бар будет на пляже"});
+            return result;
+        }
+
+        private static List<string> InitializeBabyStrollersRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetPhraseDeclension("детская коляска"));
+            var rent = WordsCollection.GetNounDeclension("аренда");
+            result.AddRange(rent.Select(word => word.Insert(word.Length, " детской коляски")));
+            result.AddRange(rent.Select(word => word.Insert(word.Length, " детских колясок")));
+            rent = WordsCollection.GetNounDeclension("прокат");
+            result.AddRange(rent.Select(word => word.Insert(word.Length, " детской коляски")));
+            result.AddRange(rent.Select(word => word.Insert(word.Length, " детских колясок")));
+            return result;
+        }
+
+        private static List<string> InitializeBlenderRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetNounDeclension("блендер"));
+            result.AddRange(WordsCollection.GetNounDeclension("миксер"));
+            return result;
+        }
+
+        private static List<string> InitializeHeatedPoolRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetPhraseDeclension("подогреваемый бассейн"));
+            var pool = WordsCollection.GetNounDeclension("бассейн");
+            result.AddRange(pool.Select(word => word.Insert(word.Length, " с подогревом")));
             return result;
         }
 
