@@ -1,4 +1,5 @@
-﻿using TourismBot.Workers;
+﻿using TourismBot.Models;
+using TourismBot.Workers;
 
 namespace TourismBot
 {
@@ -6,6 +7,7 @@ namespace TourismBot
     {
         static void Main(string[] args)
         {
+            WordsCollection.InitializeWordsCollection();
             var worker = new TelegramWorkerService();
             worker.ExecuteCore();
         }

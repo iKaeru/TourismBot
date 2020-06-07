@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Args;
@@ -59,9 +58,6 @@ namespace TourismBot.Workers
                 var property = p.GetValue(null);
                 float ruleRating = default;
                 var ruleFound = TryGetRuleRating(text, property as Rule, out ruleRating);
-                Console.WriteLine($"rule rating {ruleRating}");
-                Console.WriteLine($"rule found {ruleFound}");
-
                 if (p.Name == $"<{nameof(Rules.TheCheapest)}>k__BackingField" && ruleFound)
                 {
                     Console.WriteLine($"!---! rule rating {ruleRating}");

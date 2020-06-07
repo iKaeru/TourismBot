@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cyriller;
@@ -7,9 +8,9 @@ namespace TourismBot.Models
 {
     public static class WordsCollection
     {
-        private static CyrNounCollection _cyrNounCollection = new CyrNounCollection();
-        private static CyrAdjectiveCollection _cyrAdjectiveCollection = new CyrAdjectiveCollection();
-        private static CyrPhrase _cyrPhraseCollection = new CyrPhrase(_cyrNounCollection, _cyrAdjectiveCollection);
+        private static CyrNounCollection _cyrNounCollection;
+        private static CyrAdjectiveCollection _cyrAdjectiveCollection;
+        private static CyrPhrase _cyrPhraseCollection;
 
         public static List<string> GetNounDeclension(string word)
         {
@@ -33,7 +34,7 @@ namespace TourismBot.Models
             result.AddRange(plural.Where(singularWord => !string.IsNullOrEmpty(singularWord)));
             return result.Distinct().ToList();
         }
-        
+
         public static List<string> GetPhraseDeclension(string phrase)
         {
             var singular = _cyrPhraseCollection.Decline(phrase, GetConditionsEnum.Strict).ToArray();
@@ -42,6 +43,37 @@ namespace TourismBot.Models
             result.AddRange(singular.Where(singularWord => !string.IsNullOrEmpty(singularWord)));
             result.AddRange(plural.Where(singularWord => !string.IsNullOrEmpty(singularWord)));
             return result.Distinct().ToList();
+        }
+
+        private static void InitializeNouns()
+        {
+            Console.WriteLine("Initializing nouns collection");
+            var result = new CyrNounCollection();
+            Console.WriteLine("Complete nouns collection");
+            _cyrNounCollection = result;
+        }
+
+        private static void InitializeAdjectives()
+        {
+            Console.WriteLine("Initializing adjectives collection");
+            var result = new CyrAdjectiveCollection();
+            Console.WriteLine("Complete adjectives collection");
+            _cyrAdjectiveCollection = result;
+        }
+
+        private static void InitializePhrases()
+        {
+            Console.WriteLine("Initializing phrases collection");
+            var result = new CyrPhrase(_cyrNounCollection, _cyrAdjectiveCollection);
+            Console.WriteLine("Complete phrases collection");
+            _cyrPhraseCollection = result;
+        }
+
+        public static void InitializeWordsCollection()
+        {
+            InitializeNouns();
+            InitializeAdjectives();
+            InitializePhrases();
         }
     }
 }
