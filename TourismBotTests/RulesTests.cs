@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
+using TourismBot.Helpers;
 using TourismBot.Models;
 using TourismBot.Workers;
 using Assert = NUnit.Framework.Assert;
@@ -250,6 +251,19 @@ namespace TourismBotTests
             {
                 "самый дешевый", "самого дешевого", "самому дешевому", "самым дешевым", "самом дешевом",
                 "самые дешевые", "самых дешевых", "самыми дешевыми",
+            };
+
+            CollectionAssert.AreEquivalent(expected, result);
+        }
+
+        [Test]
+        public void NumberWithNoun_SimpleInput_Success()
+        {
+            var result = Vocabulary.GetNumbersWithNoun("бассейн") ;
+            var expected = new List<string>
+            {
+                "один бассейн", "два бассейна", "три бассейна", "четыре бассейна", "пять бассейнов",
+                "шесть бассейнов", "семь бассейнов", "восемь бассейнов", "девять бассейнов", "десять бассейнов"
             };
 
             CollectionAssert.AreEquivalent(expected, result);

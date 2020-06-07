@@ -22,7 +22,10 @@ namespace TourismBot.Models
 
         public static Rule Blender { get; } = new Rule(InitializeBlenderRule(), InitializeCustomRating(4.3f));
         public static Rule HeatedPool { get; } = new Rule(InitializeHeatedPoolRule(), InitializeCustomRating(4.4f));
-        public static Rule PoolsQuantity { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
+
+        public static Rule PoolsQuantity { get; } =
+            new Rule(InitializePoolsQuantityRule(), InitializeCustomRating(4.3f));
+
         public static Rule BarsQuantity { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
         public static Rule KidsClub { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
         public static Rule KidsPot { get; } = new Rule(new List<string>(), InitializeCustomRating(4.2f));
@@ -246,9 +249,27 @@ namespace TourismBot.Models
         private static List<string> InitializeHeatedPoolRule()
         {
             var result = new List<string>();
-            result.AddRange(WordsCollection.GetPhraseDeclension("подогреваемый бассейн"));
             var pool = WordsCollection.GetNounDeclension("бассейн");
             result.AddRange(pool.Select(word => word.Insert(word.Length, " с подогревом")));
+            result.AddRange(new List<string>
+            {
+                "подогреваемый бассейн", "подогреваемые бассейны",
+                "подогреваемого бассейна", "подогреваемых бассейнов",
+                "подогреваемому бассейну", "подогреваемым бассейном",
+                "подогреваемыми бассейнами", "подогреваемом бассейне",
+            });
+
+            return result;
+        }
+
+        private static List<string> InitializePoolsQuantityRule()
+        {
+            var result = new List<string>();
+            var amount = WordsCollection.GetNounDeclension("количество");
+            result.AddRange(amount.Select(word => word.Insert(word.Length, " бассейнов")));
+            amount = WordsCollection.GetNounDeclension("число");
+            result.AddRange(amount.Select(word => word.Insert(word.Length, " бассейнов")));
+
             return result;
         }
 
