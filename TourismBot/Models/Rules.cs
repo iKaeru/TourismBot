@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using TourismBot.Helpers;
 
 namespace TourismBot.Models
 {
@@ -269,7 +270,7 @@ namespace TourismBot.Models
             result.AddRange(amount.Select(word => word.Insert(word.Length, " бассейнов")));
             amount = WordsCollection.GetNounDeclension("число");
             result.AddRange(amount.Select(word => word.Insert(word.Length, " бассейнов")));
-
+            result.AddRange(Vocabulary.GetNumbersWithNoun("бассейн"));
             return result;
         }
 
