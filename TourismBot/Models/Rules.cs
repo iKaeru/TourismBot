@@ -10,8 +10,8 @@ namespace TourismBot.Models
         public static Rule Picky { get; } = new Rule(InitializePickyRule(), InitializeCustomRating(4.5f));
         public static Rule Food { get; } = new Rule(InitializeFoodRule(), InitializeFoodRating());
         public static Rule Alcohol { get; } = new Rule(InitializeAlcoholRule(), InitializeCustomRating(4.7f));
-        public static Rule Quality { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
-        public static Rule RestWithKids { get; } = new Rule(new List<string>(), InitializeCustomRating(4.2f));
+        public static Rule Quality { get; } = new Rule(InitializeQualityRule(), InitializeCustomRating(4.3f));
+        public static Rule RestWithKids { get; } = new Rule(InitializeRestWithKidsRule(), InitializeCustomRating(4.2f));
         public static Rule BeachBar { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
         public static Rule ConstructionDate { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
         public static Rule BabyStrollers { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
@@ -127,6 +127,56 @@ namespace TourismBot.Models
             result.AddRange(WordsCollection.GetAdjectiveDeclension("крепкий"));
             result.AddRange(WordsCollection.GetAdjectiveDeclension("горячительный"));
             result.AddRange(new List<string> {"выпить", "выпивать"});
+            return result;
+        }
+
+        private static List<string> InitializeQualityRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetNounDeclension("сервис"));
+            result.AddRange(WordsCollection.GetNounDeclension("качество"));
+            result.AddRange(WordsCollection.GetNounDeclension("услуга"));
+            result.AddRange(WordsCollection.GetNounDeclension("обслуживание"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("качественный"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("высококачественный"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("первоклассный"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("хороший"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("отличный"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("удобный"));
+            return result;
+        }
+
+        private static List<string> InitializeRestWithKidsRule()
+        {
+            var result = new List<string>();
+            var kid = WordsCollection.GetNounDeclension("ребёнок");
+            result.AddRange(kid);
+            result.AddRange(kid.Select(word =>
+                word.Replace('ё', 'е'))); // include typos
+            kid = WordsCollection.GetNounDeclension("ребёночек");
+            result.AddRange(kid);
+            result.AddRange(kid.Select(word =>
+                word.Replace('ё', 'е'))); // include typos
+            result.AddRange(WordsCollection.GetNounDeclension("мальчик"));
+            result.AddRange(WordsCollection.GetNounDeclension("мальчишка"));
+            result.AddRange(WordsCollection.GetNounDeclension("девочка"));
+            var girl = WordsCollection.GetNounDeclension("девчёнка");
+            result.AddRange(girl);
+            result.AddRange(girl.Select(word =>
+                word.Replace('ё', 'е'))); // include typos
+            result.AddRange(WordsCollection.GetNounDeclension("сын"));
+            result.AddRange(WordsCollection.GetNounDeclension("сынок"));
+            result.AddRange(WordsCollection.GetNounDeclension("сыночек"));
+            result.AddRange(WordsCollection.GetNounDeclension("сынишка"));
+            result.AddRange(WordsCollection.GetNounDeclension("дочь"));
+            result.AddRange(WordsCollection.GetNounDeclension("дочка"));
+            result.AddRange(WordsCollection.GetNounDeclension("доченька"));
+            result.AddRange(WordsCollection.GetNounDeclension("дочурка"));
+            result.AddRange(WordsCollection.GetNounDeclension("дитя"));
+            result.AddRange(WordsCollection.GetNounDeclension("малыш"));
+            result.AddRange(WordsCollection.GetNounDeclension("младенец"));
+            result.AddRange(WordsCollection.GetNounDeclension("отпрыск"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("детский"));
             return result;
         }
 
