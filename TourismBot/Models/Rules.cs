@@ -9,7 +9,7 @@ namespace TourismBot.Models
         public static Rule Budgetary { get; } = new Rule(InitializeBudgetaryRule(), InitializeCustomRating(3.5f));
         public static Rule Picky { get; } = new Rule(InitializePickyRule(), InitializeCustomRating(4.5f));
         public static Rule Food { get; } = new Rule(InitializeFoodRule(), InitializeFoodRating());
-        public static Rule Alcohol { get; } = new Rule(new List<string>(), InitializeCustomRating(4.7f));
+        public static Rule Alcohol { get; } = new Rule(InitializeAlcoholRule(), InitializeCustomRating(4.7f));
         public static Rule Quality { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
         public static Rule RestWithKids { get; } = new Rule(new List<string>(), InitializeCustomRating(4.2f));
         public static Rule BeachBar { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
@@ -40,7 +40,7 @@ namespace TourismBot.Models
             result.AddRange(cheapest);
             result.AddRange(cheapest.Select(phrase =>
                 phrase.Replace('ё', 'е'))); // include typos
-
+            result.AddRange(WordsCollection.GetPhraseDeclension("самый бюджетный"));
             return result;
         }
 
@@ -97,9 +97,36 @@ namespace TourismBot.Models
         {
             var result = new List<string>();
             result.AddRange(WordsCollection.GetNounDeclension("еда"));
+            result.AddRange(WordsCollection.GetNounDeclension("пища"));
             result.AddRange(WordsCollection.GetNounDeclension("питание"));
             result.AddRange(WordsCollection.GetNounDeclension("блюдо"));
-            result.AddRange(new List<string> {"поесть", "поем", "поешь", "поест", "поедим", "поедите", "поедят"});
+            result.AddRange(WordsCollection.GetNounDeclension("перекус"));
+            result.AddRange(WordsCollection.GetNounDeclension("закуска"));
+            result.AddRange(WordsCollection.GetNounDeclension("завтрак"));
+            result.AddRange(WordsCollection.GetNounDeclension("обед"));
+            result.AddRange(WordsCollection.GetNounDeclension("ужин"));
+            result.AddRange(WordsCollection.GetNounDeclension("рацион"));
+            result.AddRange(new List<string> {"поесть", "перекусить", "закусить",});
+            return result;
+        }
+
+        private static List<string> InitializeAlcoholRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetNounDeclension("бокал"));
+            result.AddRange(WordsCollection.GetNounDeclension("бутылка"));
+            result.AddRange(WordsCollection.GetNounDeclension("бутылочка"));
+            result.AddRange(WordsCollection.GetNounDeclension("бокальчик"));
+            result.AddRange(WordsCollection.GetNounDeclension("вино"));
+            result.AddRange(WordsCollection.GetNounDeclension("шампанское"));
+            result.AddRange(WordsCollection.GetNounDeclension("алкоголь"));
+            result.AddRange(WordsCollection.GetNounDeclension("выпивка"));
+            result.AddRange(WordsCollection.GetNounDeclension("напиток"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("алкогольный"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("спиртной"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("крепкий"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("горячительный"));
+            result.AddRange(new List<string> {"выпить", "выпивать"});
             return result;
         }
 

@@ -227,8 +227,7 @@ namespace TourismBotTests
 
             CollectionAssert.AreEquivalent(expected, (List<string>) obj);
         }
-
-
+        
         [Test]
         public void GetPhraseDeclensionName_CheapestTypo_Success()
         {
