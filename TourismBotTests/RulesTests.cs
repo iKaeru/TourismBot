@@ -189,6 +189,19 @@ namespace TourismBotTests
         }
 
         [Test]
+        public void GetNounDeclension_InsertTextAfterDeclension_Success()
+        {
+            var obj = RulesPrivate.InvokeStatic(GetNounDeclensionName, "бар");
+            var result = ((List<string>) obj).Select(word => word.Insert(word.Length, " на пляже"));
+            var expected = new List<string>
+            {
+                "бар на пляже", "бары на пляже", "бара на пляже", "баров на пляже", "бару на пляже",
+                "барам на пляже", "баром на пляже", "барами на пляже", "баре на пляже", "барах на пляже"
+            };
+            CollectionAssert.AreEquivalent(expected, result);
+        }
+
+        [Test]
         public void GetAdjectiveDeclensionName_WordWithPluralAndWithDuplicates_Success()
         {
             var obj = RulesPrivate.InvokeStatic(GetAdjectiveDeclensionName, "красивый");
@@ -227,7 +240,7 @@ namespace TourismBotTests
 
             CollectionAssert.AreEquivalent(expected, (List<string>) obj);
         }
-        
+
         [Test]
         public void GetPhraseDeclensionName_CheapestTypo_Success()
         {

@@ -12,7 +12,7 @@ namespace TourismBot.Models
         public static Rule Alcohol { get; } = new Rule(InitializeAlcoholRule(), InitializeCustomRating(4.7f));
         public static Rule Quality { get; } = new Rule(InitializeQualityRule(), InitializeCustomRating(4.3f));
         public static Rule RestWithKids { get; } = new Rule(InitializeRestWithKidsRule(), InitializeCustomRating(4.2f));
-        public static Rule BeachBar { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
+        public static Rule BeachBar { get; } = new Rule(InitializeBeachBarRule(), InitializeCustomRating(4.4f));
 
         public static Rule ConstructionDate { get; } =
             new Rule(InitializeConstructionDateRule(), InitializeCustomRating(4.4f));
@@ -208,6 +208,15 @@ namespace TourismBot.Models
                 "эксплуатируемый", "эксплуатируемые", "эксплуатируемого", "эксплуатируемых",
                 "эксплуатируемому", "эксплуатируемым", "эксплуатируемыми", "эксплуатируемом",
             });
+            return result;
+        }
+
+        private static List<string> InitializeBeachBarRule()
+        {
+            var result = new List<string>();
+            var bar = WordsCollection.GetNounDeclension("бар");
+            result.AddRange(bar.Select(word => word.Insert(word.Length, " на пляже")));
+            result.AddRange(new List<string> {"бар есть на пляже", "бар был на пляже", "бар будет на пляже"});
             return result;
         }
 
