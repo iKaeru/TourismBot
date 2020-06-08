@@ -27,7 +27,7 @@ namespace TourismBot.Models
         public static Rule PoolsQuantity { get; } =
             new Rule(InitializePoolsQuantityRule(), InitializeCustomRating(4.3f));
 
-        public static Rule BarsQuantity { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
+        public static Rule BarsQuantity { get; } = new Rule(InitializeBarsQuantityRule(), InitializeCustomRating(4.4f));
         public static Rule KidsClub { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
         public static Rule KidsPot { get; } = new Rule(new List<string>(), InitializeCustomRating(4.2f));
         public static Rule AnimationShow { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
@@ -272,7 +272,20 @@ namespace TourismBot.Models
             result.AddRange(amount.Select(word => word.Insert(word.Length, " бассейнов")));
             amount = WordsCollection.GetNounDeclension("число");
             result.AddRange(amount.Select(word => word.Insert(word.Length, " бассейнов")));
-            result.AddRange(Vocabulary.GetNumbersWithNoun("бассейн"));
+            result.AddRange(Vocabulary.GetNumbersWithNounDeclension("бассейн"));
+            result.AddRange(new List<string> {"несколько бассейнов", "много бассейнов"});
+            return result;
+        }
+
+        private static List<string> InitializeBarsQuantityRule()
+        {
+            var result = new List<string>();
+            var amount = WordsCollection.GetNounDeclension("количество");
+            result.AddRange(amount.Select(word => word.Insert(word.Length, " баров")));
+            amount = WordsCollection.GetNounDeclension("число");
+            result.AddRange(amount.Select(word => word.Insert(word.Length, " баров")));
+            result.AddRange(Vocabulary.GetNumbersWithNounDeclension("бар"));
+            result.AddRange(new List<string> {"несколько баров", "много баров"});
             return result;
         }
 

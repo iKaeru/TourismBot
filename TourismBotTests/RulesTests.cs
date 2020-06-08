@@ -21,6 +21,12 @@ namespace TourismBotTests
         private static readonly string GetAdjectiveDeclensionName = "GetAdjectiveDeclension";
         private static readonly string GetPhraseDeclensionName = "GetPhraseDeclension";
 
+        [OneTimeSetUp]
+        public void Init()
+        {
+            WordsCollection.InitializeWordsCollection();
+        }
+
         [SetUp]
         public void Setup()
         {
@@ -259,13 +265,25 @@ namespace TourismBotTests
         [Test]
         public void NumberWithNoun_SimpleInput_Success()
         {
-            var result = Vocabulary.GetNumbersWithNoun("бассейн") ;
+            var result = Vocabulary.GetNumbersWithNoun("бассейн");
             var expected = new List<string>
             {
                 "один бассейн", "два бассейна", "три бассейна", "четыре бассейна", "пять бассейнов",
                 "шесть бассейнов", "семь бассейнов", "восемь бассейнов", "девять бассейнов", "десять бассейнов"
             };
 
+            CollectionAssert.AreEquivalent(expected, result);
+        }
+
+        [Test]
+        public void GetNumbersWithNounDeclension_SimpleInput_Success()
+        {
+            var result = Vocabulary.GetNumbersWithNounDeclension("бассейн");
+            var expected = new List<string>
+            {
+                "один бассейн", "одного бассейна", "одному бассейну", "одним бассейном", "одном бассейне",
+                "десять бассейнов", "десяти бассейнов", "десятью бассейнами",
+            };
             CollectionAssert.AreEquivalent(expected, result);
         }
     }
