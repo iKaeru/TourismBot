@@ -68,16 +68,18 @@ namespace TourismBot.Helpers
         public static List<string> GetNumbersWithNounDeclension(string noun)
         {
             var result = new List<string>();
-            var nounCases = WordsCollection.GetNounCases(noun);
+            var singularNounCases = WordsCollection.GetNounSingularCases(noun);
+            var pluralNounCases = WordsCollection.GetNounPluralCases(noun);
             for (var i = 0; i < NumbersDeclension.Count; i++)
             {
                 var ending = GetEnding(i);
+                var cases = i > 0 ? pluralNounCases : singularNounCases;
                 result.Add($"{NumbersDeclension[i].NominativeCase} {noun}{ending}");
-                result.Add($"{NumbersDeclension[i].GenitiveCase} {nounCases.GenitiveCase}");
-                result.Add($"{NumbersDeclension[i].DativeCase} {nounCases.DativeCase}");
+                result.Add($"{NumbersDeclension[i].GenitiveCase} {cases.GenitiveCase}");
+                result.Add($"{NumbersDeclension[i].DativeCase} {cases.DativeCase}");
                 result.Add($"{NumbersDeclension[i].AccusativeCase} {noun}{ending}");
-                result.Add($"{NumbersDeclension[i].InstrumentalCase} {nounCases.InstrumentalCase}");
-                result.Add($"{NumbersDeclension[i].PrepositionalCase} {nounCases.PrepositionalCase}");
+                result.Add($"{NumbersDeclension[i].InstrumentalCase} {cases.InstrumentalCase}");
+                result.Add($"{NumbersDeclension[i].PrepositionalCase} {cases.PrepositionalCase}");
             }
 
             return result.Distinct().ToList();

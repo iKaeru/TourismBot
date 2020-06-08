@@ -45,7 +45,7 @@ namespace TourismBot.Models
             return result.Distinct().ToList();
         }
 
-        public static Cases GetNounCases(string word)
+        public static Cases GetNounSingularCases(string word)
         {
             var noun = _cyrNounCollection.Get(word, out CasesEnum @case, out NumbersEnum number);
             var singular = noun.Decline();
@@ -57,6 +57,21 @@ namespace TourismBot.Models
                 AccusativeCase = singular.Accusative,
                 InstrumentalCase = singular.Instrumental,
                 PrepositionalCase = singular.Prepositional
+            };
+        }
+
+        public static Cases GetNounPluralCases(string word)
+        {
+            var noun = _cyrNounCollection.Get(word, out CasesEnum @case, out NumbersEnum number);
+            var plural = noun.DeclinePlural();
+            return new Cases
+            {
+                NominativeCase = plural.Nominative,
+                GenitiveCase = plural.Genitive,
+                DativeCase = plural.Dative,
+                AccusativeCase = plural.Accusative,
+                InstrumentalCase = plural.Instrumental,
+                PrepositionalCase = plural.Prepositional
             };
         }
 

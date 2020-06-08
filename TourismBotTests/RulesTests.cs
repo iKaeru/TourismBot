@@ -282,9 +282,17 @@ namespace TourismBotTests
             var expected = new List<string>
             {
                 "один бассейн", "одного бассейна", "одному бассейну", "одним бассейном", "одном бассейне",
-                "десять бассейнов", "десяти бассейнов", "десятью бассейнами",
+                "два бассейна", "двух бассейнов", "двум бассейнам", "двумя бассейнами", "двух бассейнах",
+                "десять бассейнов", "десяти бассейнов", "десяти бассейнам", "десятью бассейнами", "десяти бассейнах"
             };
-            CollectionAssert.AreEquivalent(expected, result);
+            var notAllResult = new List<string>();
+            for (var i = 0; i < result.Count; i++)
+            {
+                if (i >= 0 && i < 10 || i >= result.Count - 5)
+                    notAllResult.Add(result[i]);
+            }
+
+            CollectionAssert.AreEquivalent(expected, notAllResult);
         }
     }
 }
