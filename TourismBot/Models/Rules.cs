@@ -28,9 +28,12 @@ namespace TourismBot.Models
             new Rule(InitializePoolsQuantityRule(), InitializeCustomRating(4.3f));
 
         public static Rule BarsQuantity { get; } = new Rule(InitializeBarsQuantityRule(), InitializeCustomRating(4.4f));
-        public static Rule KidsClub { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
-        public static Rule KidsPot { get; } = new Rule(new List<string>(), InitializeCustomRating(4.2f));
-        public static Rule AnimationShow { get; } = new Rule(new List<string>(), InitializeCustomRating(4.3f));
+        public static Rule KidsClub { get; } = new Rule(InitializeKidsClubRule(), InitializeCustomRating(4.4f));
+        public static Rule KidsPot { get; } = new Rule(InitializeKidsPotRule(), InitializeCustomRating(4.2f));
+
+        public static Rule AnimationShow { get; } =
+            new Rule(InitializeAnimationShowRule(), InitializeCustomRating(4.3f));
+
         public static Rule PeopleWithDisabilities { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
         public static Rule UltraAllInclusive { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
         public static Rule KidsFood { get; } = new Rule(new List<string>(), InitializeCustomRating(4.6f));
@@ -310,6 +313,33 @@ namespace TourismBot.Models
             oneKid = bed.Select(word => $"{word} для ребёнка").ToList();
             result.AddRange(oneKid);
             result.AddRange(oneKid.Select(word => word.Replace('ё', 'е'))); // include typos
+            return result;
+        }
+
+        private static List<string> InitializeKidsPotRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetPhraseDeclension("детский горшок"));
+            result.AddRange(WordsCollection.GetPhraseDeclension("детский туалет"));
+            var pot = WordsCollection.GetNounDeclension("горшок");
+            result.AddRange(pot.Select(word => $"{word} для детей"));
+            var oneKid = pot.Select(word => $"{word} для ребёнка").ToList();
+            result.AddRange(oneKid);
+            result.AddRange(oneKid.Select(word => word.Replace('ё', 'е'))); // include typos
+            pot = WordsCollection.GetNounDeclension("туалет");
+            result.AddRange(pot.Select(word => $"{word} для детей"));
+            oneKid = pot.Select(word => $"{word} для ребёнка").ToList();
+            result.AddRange(oneKid);
+            result.AddRange(oneKid.Select(word => word.Replace('ё', 'е'))); // include typos
+            return result;
+        }
+
+        private static List<string> InitializeAnimationShowRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetNounDeclension("анимация"));
+            result.AddRange(WordsCollection.GetNounDeclension("шоу"));
+            result.AddRange(WordsCollection.GetNounDeclension("представление"));
             return result;
         }
 
