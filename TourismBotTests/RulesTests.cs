@@ -144,7 +144,7 @@ namespace TourismBotTests
         }
 
         [Test]
-        public void CountWordOccurence_InputWithOneOccurrence_Succes()
+        public void CountWordOccurence_InputWithOneOccurrence_Success()
         {
             var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
                 "отель с хорошей едой", Rules.Food.AssociatedPhrases);
@@ -152,7 +152,7 @@ namespace TourismBotTests
         }
 
         [Test]
-        public void CountWordOccurence_InputWithThreeOccurrence_Succes()
+        public void CountWordOccurence_InputWithThreeOccurrence_Success()
         {
             var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
                 "отель с хорошей едой, не беспокоиться о еде, много еды", Rules.Food.AssociatedPhrases);
@@ -160,7 +160,7 @@ namespace TourismBotTests
         }
 
         [Test]
-        public void CountWordOccurence_InputWithPhrase_Succes()
+        public void CountWordOccurence_InputWithPhrase_Success()
         {
             var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
                 "самый дешёвый отель", Rules.TheCheapest.AssociatedPhrases);
@@ -168,7 +168,7 @@ namespace TourismBotTests
         }
 
         [Test]
-        public void CountWordOccurence_InputWithSeveralPhrase_Succes()
+        public void CountWordOccurence_InputWithSeveralPhrase_Success()
         {
             var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
                 "Нас интересует самый малостоящий отель. Только самый дешёвый отель",
@@ -176,6 +176,16 @@ namespace TourismBotTests
             Assert.AreEqual(2, retVal);
         }
 
+        
+        [Test]
+        public void CountWordOccurence_InputWithSeveralPhrase_IgnoreCase_Success()
+        {
+            var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
+                "Нас интересует САМЫЙ малостоящий отель. Только сАмЫй дЕшёвЫй отель",
+                Rules.TheCheapest.AssociatedPhrases);
+            Assert.AreEqual(2, retVal);
+        }
+        
         [Test]
         public void GetNounDeclension_WordWithoutPluralAndWithDuplicates_Success()
         {

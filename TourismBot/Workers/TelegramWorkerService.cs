@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Args;
@@ -72,10 +73,7 @@ namespace TourismBot.Workers
                 float ruleRating = default;
                 var ruleFound = TryGetRuleRating(text, property as Rule, out ruleRating);
                 if (p.Name == $"<{nameof(Rules.TheCheapest)}>k__BackingField" && ruleFound)
-                {
-                    Console.WriteLine($"!---! rule rating {ruleRating}");
                     return ruleRating;
-                }
 
                 if (ruleRating > resultRating)
                     resultRating = ruleRating;
@@ -119,10 +117,12 @@ namespace TourismBot.Workers
 
         private static int CountWordOccurence(string text, List<string> phrases)
         {
+            var culture = CultureInfo.InvariantCulture;
             var counter = 0;
             phrases.ForEach(phrase =>
             {
-                if (text.Contains(phrase)) counter++;
+                if (culture.CompareInfo.IndexOf(text, phrase, CompareOptions.IgnoreCase) >= 0)
+                    counter++;
             });
             return counter;
         }

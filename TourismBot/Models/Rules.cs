@@ -34,8 +34,12 @@ namespace TourismBot.Models
         public static Rule AnimationShow { get; } =
             new Rule(InitializeAnimationShowRule(), InitializeCustomRating(4.3f));
 
-        public static Rule PeopleWithDisabilities { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
-        public static Rule UltraAllInclusive { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
+        public static Rule PeopleWithDisabilities { get; } =
+            new Rule(InitializePeopleWithDisabilitiesRule(), InitializeCustomRating(4.4f));
+
+        public static Rule UltraAllInclusive { get; } =
+            new Rule(InitializeUltraAllInclusiveRule(), InitializeCustomRating(4.4f));
+
         public static Rule KidsFood { get; } = new Rule(new List<string>(), InitializeCustomRating(4.6f));
         public static Rule BikeRental { get; } = new Rule(new List<string>(), InitializeCustomRating(4.2f));
         public static Rule SportAndTraining { get; } = new Rule(new List<string>(), InitializeCustomRating(4.23f));
@@ -340,6 +344,28 @@ namespace TourismBot.Models
             result.AddRange(WordsCollection.GetNounDeclension("анимация"));
             result.AddRange(WordsCollection.GetNounDeclension("шоу"));
             result.AddRange(WordsCollection.GetNounDeclension("представление"));
+            return result;
+        }
+
+        private static List<string> InitializePeopleWithDisabilitiesRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetNounDeclension("инвалид"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("травмированный"));
+            result.AddRange(new List<string>
+            {
+                "ограниченные возможности", "ограниченных возможностей", "ограниченным возможностям",
+                "ограниченными возможностями", "ограниченных возможностях"
+            });
+            return result;
+        }
+
+        private static List<string> InitializeUltraAllInclusiveRule()
+        {
+            var result = new List<string>();
+
+            result.AddRange(new List<string>
+                {"UAI", "Ultra All Inclusive", "ультра всё включено", "ультра все включено"});
             return result;
         }
 
