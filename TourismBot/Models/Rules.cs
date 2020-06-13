@@ -289,6 +289,30 @@ namespace TourismBot.Models
             return result;
         }
 
+        private static List<string> InitializeKidsClubRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetPhraseDeclension("детская кроватка"));
+            result.AddRange(WordsCollection.GetPhraseDeclension("детская кровать"));
+            result.AddRange(WordsCollection.GetPhraseDeclension("детский клуб"));
+            var club = WordsCollection.GetNounDeclension("клуб");
+            result.AddRange(club.Select(word => $"{word} для детей"));
+            var oneKid = club.Select(word => $"{word} для ребёнка").ToList();
+            result.AddRange(oneKid);
+            result.AddRange(oneKid.Select(word => word.Replace('ё', 'е'))); // include typos
+            var bed = WordsCollection.GetNounDeclension("кровать");
+            result.AddRange(bed.Select(word => $"{word} для детей"));
+            oneKid = bed.Select(word => $"{word} для ребёнка").ToList();
+            result.AddRange(oneKid);
+            result.AddRange(oneKid.Select(word => word.Replace('ё', 'е'))); // include typos
+            bed = WordsCollection.GetNounDeclension("кроватка");
+            result.AddRange(bed.Select(word => $"{word} для детей"));
+            oneKid = bed.Select(word => $"{word} для ребёнка").ToList();
+            result.AddRange(oneKid);
+            result.AddRange(oneKid.Select(word => word.Replace('ё', 'е'))); // include typos
+            return result;
+        }
+
         #endregion vocabulary
 
         #region rating

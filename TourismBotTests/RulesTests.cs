@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -257,6 +258,32 @@ namespace TourismBotTests
             {
                 "самый дешевый", "самого дешевого", "самому дешевому", "самым дешевым", "самом дешевом",
                 "самые дешевые", "самых дешевых", "самыми дешевыми",
+            };
+
+            CollectionAssert.AreEquivalent(expected, result);
+        }
+
+        [Test]
+        public void GetNounDeclensionName_KidsClubSelect_Success()
+        {
+            var obj = RulesPrivate.InvokeStatic(GetNounDeclensionName, "клуб");
+            var listObj = (List<string>) obj;
+            var result = listObj.Select(word => $"{word} для детей").ToList();
+            var kids = listObj.Select(word => $"{word} для ребёнка").ToList();
+            result.AddRange(kids);
+            result.AddRange(kids.Select(word =>
+                word.Replace('ё', 'е'))); // include typos
+
+            var expected = new List<string>
+            {
+                "клуб для детей", "клуба для детей", "клубу для детей", "клубом для детей", "клубе для детей",
+                "клубы для детей", "клубов для детей", "клубам для детей", "клубами для детей", "клубах для детей",
+                "клуб для ребёнка", "клуба для ребёнка", "клубу для ребёнка", "клубом для ребёнка", "клубе для ребёнка",
+                "клубы для ребёнка", "клубов для ребёнка", "клубам для ребёнка", "клубами для ребёнка",
+                "клубах для ребёнка",
+                "клуб для ребенка", "клуба для ребенка", "клубу для ребенка", "клубом для ребенка", "клубе для ребенка",
+                "клубы для ребенка", "клубов для ребенка", "клубам для ребенка", "клубами для ребенка",
+                "клубах для ребенка"
             };
 
             CollectionAssert.AreEquivalent(expected, result);
