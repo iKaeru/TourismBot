@@ -41,9 +41,12 @@ namespace TourismBot.Models
             new Rule(InitializeUltraAllInclusiveRule(), InitializeCustomRating(4.4f));
 
         public static Rule KidsFood { get; } = new Rule(InitializeKidsFoodRule(), InitializeCustomRating(4.6f));
-        public static Rule BikeRental { get; } = new Rule(new List<string>(), InitializeCustomRating(4.2f));
-        public static Rule SportAndTraining { get; } = new Rule(new List<string>(), InitializeCustomRating(4.23f));
-        public static Rule Rooms { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
+        public static Rule BikeRental { get; } = new Rule(InitializeBikeRentalRule(), InitializeCustomRating(4.2f));
+
+        public static Rule SportAndTraining { get; } =
+            new Rule(InitializeSportAndTrainingRule(), InitializeCustomRating(4.23f));
+
+        public static Rule Rooms { get; } = new Rule(InitializeRoomsRule(), InitializeCustomRating(4.4f));
 
         #region vocabulary
 
@@ -392,15 +395,60 @@ namespace TourismBot.Models
             return result;
         }
 
+        private static List<string> InitializeBikeRentalRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetNounDeclension("велосипед"));
+            var rent = WordsCollection.GetNounDeclension("аренда");
+            result.AddRange(rent.Select(word => word.Insert(word.Length, " велосипеда")));
+            result.AddRange(rent.Select(word => word.Insert(word.Length, " велосипедов")));
+            rent = WordsCollection.GetNounDeclension("прокат");
+            result.AddRange(rent.Select(word => word.Insert(word.Length, " велосипеда")));
+            result.AddRange(rent.Select(word => word.Insert(word.Length, " велосипедов")));
+            return result;
+        }
+
+        private static List<string> InitializeSportAndTrainingRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetNounDeclension("дайвинг"));
+            result.AddRange(WordsCollection.GetNounDeclension("футбол"));
+            result.AddRange(WordsCollection.GetNounDeclension("волейбол"));
+            result.AddRange(WordsCollection.GetNounDeclension("баскетбол"));
+            result.AddRange(WordsCollection.GetNounDeclension("теннис"));
+            result.AddRange(WordsCollection.GetNounDeclension("теннис"));
+            result.AddRange(WordsCollection.GetNounDeclension("тренировка"));
+            result.AddRange(WordsCollection.GetAdjectiveDeclension("спортивный"));
+            var gym = WordsCollection.GetPhraseDeclension("тренажерный зал");
+            result.AddRange(gym);
+            result.AddRange(WordsCollection.GetPhraseDeclensionWithReplacedChar(gym, 6, 'ё')); // include typos
+            result.AddRange(new List<string> {"спорт", "фитнесс", "фитнесс зал", "фитнес", "фитнес зал"});
+            return result;
+        }
+
+        private static List<string> InitializeRoomsRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetNounDeclension("номер"));
+            result.AddRange(WordsCollection.GetNounDeclension("комната"));
+            return result;
+        }
+
         #endregion vocabulary
 
         #region rating
 
         private static List<(int, float)> InitializeFoodRating()
-            => new List<(int, float)> {(1, 4.5f), (3, 4.7f),};
+            => new List<(int, float)>
+            {
+                (1, 4.5f), (3, 4.7f),
+            };
 
         private static List<(int, float)> InitializeCustomRating(float value)
-            => new List<(int, float)> {(1, value)};
+            => new List<(int, float)>
+            {
+                (1, value)
+            };
 
         #endregion rating
     }

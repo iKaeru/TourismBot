@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Cyriller;
 using Cyriller.Model;
 
@@ -28,6 +29,16 @@ namespace TourismBot.Models
                 if (wordsArr.ToList().Count > 1)
                     return true;
                 return false;
+            }).ToList();
+        }
+
+        public static List<string> GetPhraseDeclensionWithReplacedChar(List<string> phrases, int index, char newChar)
+        {
+            return phrases.Select(phrase =>
+            {
+                var sb = new StringBuilder(phrase);
+                sb[index] = newChar;
+                return sb.ToString();
             }).ToList();
         }
 

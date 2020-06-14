@@ -22,6 +22,7 @@ namespace TourismBotTests
         private static readonly string GetAdjectiveDeclensionName = "GetAdjectiveDeclension";
         private static readonly string GetPhraseDeclensionName = "GetPhraseDeclension";
         private static readonly string GetPhraseDeclensionReducedName = "GetPhraseDeclensionReduced";
+        private static readonly string GetPhraseDeclensionReplacedCharName = "GetPhraseDeclensionWithReplacedChar";
 
         [OneTimeSetUp]
         public void Init()
@@ -285,6 +286,22 @@ namespace TourismBotTests
 
             CollectionAssert.AreEquivalent(expected, (List<string>) obj);
         }
+
+        [Test]
+        public void GetPhraseDeclensionReplacedCharName_SportAndTraining_Success()
+        {
+            var phrases = RulesPrivate.InvokeStatic(GetPhraseDeclensionName, "тренажерный зал");
+            var obj = RulesPrivate.InvokeStatic(GetPhraseDeclensionReplacedCharName, (List<string>) phrases, 6, 'ё');
+            var expected = new List<string>
+            {
+                "тренажёрный зал", "тренажёрные залы", "тренажёрного зала", "тренажёрных залов",
+                "тренажёрному залу", "тренажёрным залам", "тренажёрным залом", "тренажёрными залами",
+                "тренажёрном зале", "тренажёрных залах",
+            };
+
+            CollectionAssert.AreEquivalent(expected, (List<string>) obj);
+        }
+
 
         [Test]
         public void GetNounDeclensionName_KidsClubSelect_Success()
