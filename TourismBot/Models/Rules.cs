@@ -40,7 +40,7 @@ namespace TourismBot.Models
         public static Rule UltraAllInclusive { get; } =
             new Rule(InitializeUltraAllInclusiveRule(), InitializeCustomRating(4.4f));
 
-        public static Rule KidsFood { get; } = new Rule(new List<string>(), InitializeCustomRating(4.6f));
+        public static Rule KidsFood { get; } = new Rule(InitializeKidsFoodRule(), InitializeCustomRating(4.6f));
         public static Rule BikeRental { get; } = new Rule(new List<string>(), InitializeCustomRating(4.2f));
         public static Rule SportAndTraining { get; } = new Rule(new List<string>(), InitializeCustomRating(4.23f));
         public static Rule Rooms { get; } = new Rule(new List<string>(), InitializeCustomRating(4.4f));
@@ -363,9 +363,32 @@ namespace TourismBot.Models
         private static List<string> InitializeUltraAllInclusiveRule()
         {
             var result = new List<string>();
-
             result.AddRange(new List<string>
-                {"UAI", "Ultra All Inclusive", "ультра всё включено", "ультра все включено"});
+                {"UAI", "UAL", "UALL", "Ultra All Inclusive", "all inc", "ультра всё включено", "ультра все включено"});
+            return result;
+        }
+
+        private static List<string> InitializeKidsFoodRule()
+        {
+            var result = new List<string>();
+            result.AddRange(WordsCollection.GetPhraseDeclension("детское питание"));
+            result.AddRange(WordsCollection.GetPhraseDeclensionReduced("детская еда"));
+            result.AddRange(WordsCollection.GetPhraseDeclension("детская кухня"));
+            var food = WordsCollection.GetNounDeclension("питание");
+            result.AddRange(food.Select(word => $"{word} для детей"));
+            var oneKid = food.Select(word => $"{word} для ребёнка").ToList();
+            result.AddRange(oneKid);
+            result.AddRange(oneKid.Select(word => word.Replace('ё', 'е'))); // include typos
+            food = WordsCollection.GetNounDeclension("еда");
+            result.AddRange(food.Select(word => $"{word} для детей"));
+            oneKid = food.Select(word => $"{word} для ребёнка").ToList();
+            result.AddRange(oneKid);
+            result.AddRange(oneKid.Select(word => word.Replace('ё', 'е'))); // include typos
+            food = WordsCollection.GetNounDeclension("кухня");
+            result.AddRange(food.Select(word => $"{word} для детей"));
+            oneKid = food.Select(word => $"{word} для ребёнка").ToList();
+            result.AddRange(oneKid);
+            result.AddRange(oneKid.Select(word => word.Replace('ё', 'е'))); // include typos
             return result;
         }
 

@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cyriller;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using TourismBot.Helpers;
@@ -21,6 +21,7 @@ namespace TourismBotTests
         private static readonly string GetNounDeclensionName = "GetNounDeclension";
         private static readonly string GetAdjectiveDeclensionName = "GetAdjectiveDeclension";
         private static readonly string GetPhraseDeclensionName = "GetPhraseDeclension";
+        private static readonly string GetPhraseDeclensionReducedName = "GetPhraseDeclensionReduced";
 
         [OneTimeSetUp]
         public void Init()
@@ -176,7 +177,7 @@ namespace TourismBotTests
             Assert.AreEqual(2, retVal);
         }
 
-        
+
         [Test]
         public void CountWordOccurence_InputWithSeveralPhrase_IgnoreCase_Success()
         {
@@ -185,7 +186,7 @@ namespace TourismBotTests
                 Rules.TheCheapest.AssociatedPhrases);
             Assert.AreEqual(2, retVal);
         }
-        
+
         [Test]
         public void GetNounDeclension_WordWithoutPluralAndWithDuplicates_Success()
         {
@@ -271,6 +272,18 @@ namespace TourismBotTests
             };
 
             CollectionAssert.AreEquivalent(expected, result);
+        }
+
+        [Test]
+        public void GetPhraseDeclensionName_KidsFood_Success()
+        {
+            var obj = RulesPrivate.InvokeStatic(GetPhraseDeclensionReducedName, "детская еда");
+            var expected = new List<string>
+            {
+                "детская еда", "детской еды", "детскую еду", "детской едой", "детской еде"
+            };
+
+            CollectionAssert.AreEquivalent(expected, (List<string>) obj);
         }
 
         [Test]

@@ -12,6 +12,25 @@ namespace TourismBot.Models
         private static CyrAdjectiveCollection _cyrAdjectiveCollection;
         private static CyrPhrase _cyrPhraseCollection;
 
+        public static void InitializeWordsCollection()
+        {
+            InitializeNouns();
+            InitializeAdjectives();
+            InitializePhrases();
+        }
+
+        public static List<string> GetPhraseDeclensionReduced(string phrase)
+        {
+            var phraseDeclension = GetPhraseDeclension(phrase);
+            return phraseDeclension.Where(phr =>
+            {
+                var wordsArr = phr.Split(' ').Where(word => !word.IsNullOrEmpty());
+                if (wordsArr.ToList().Count > 1)
+                    return true;
+                return false;
+            }).ToList();
+        }
+
         public static List<string> GetNounDeclension(string word)
         {
             var noun = _cyrNounCollection.Get(word, out CasesEnum @case, out NumbersEnum number);
@@ -97,13 +116,6 @@ namespace TourismBot.Models
             var result = new CyrPhrase(_cyrNounCollection, _cyrAdjectiveCollection);
             Console.WriteLine("Complete phrases collection");
             _cyrPhraseCollection = result;
-        }
-
-        public static void InitializeWordsCollection()
-        {
-            InitializeNouns();
-            InitializeAdjectives();
-            InitializePhrases();
         }
     }
 }
