@@ -6,6 +6,12 @@ namespace TourismBot.Helpers
 {
     public static class Vocabulary
     {
+        public static string RussianAlphabet { get; } =
+            "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+
+        public static string EnglishAlphabet { get; } =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        
         public static List<string> Numbers { get; } = new List<string>
         {
             "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять"

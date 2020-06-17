@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.Enums;
+using TourismBot.Helpers;
 using TourismBot.Models;
 
 namespace TourismBot.Workers
@@ -66,6 +66,7 @@ namespace TourismBot.Workers
             var resultRating = 0f;
             var isRuleFound = false;
             Type type = typeof(Rules);
+            text = text.ToLower();
             foreach (var p in type.GetFields(System.Reflection.BindingFlags.Static |
                                              System.Reflection.BindingFlags.NonPublic))
             {
@@ -117,14 +118,30 @@ namespace TourismBot.Workers
 
         private static int CountWordOccurence(string text, List<string> phrases)
         {
-            var culture = CultureInfo.InvariantCulture;
             var counter = 0;
             phrases.ForEach(phrase =>
             {
-                if (culture.CompareInfo.IndexOf(text, phrase, CompareOptions.IgnoreCase) >= 0)
+                var index = text.IndexOf(phrase, StringComparison.Ordinal);
+                if (index != -1 && IsPhraseSeparatedWithWhitespaces(text, phrase, index))
                     counter++;
             });
             return counter;
+        }
+
+        private static bool IsPhraseSeparatedWithWhitespaces(string text, string phrase, int index)
+        {
+            var textLength = text.Length;
+            var phraseLength = phrase.Length;
+            var firstIndex = index - 1;
+            var secondIndex = index + phraseLength;
+            var result = true;
+            if (firstIndex >= 0)
+                result = !Vocabulary.RussianAlphabet.Contains(text[firstIndex]) &&
+                         !Vocabulary.EnglishAlphabet.Contains(text[firstIndex]);
+            if (secondIndex <= textLength - 1)
+                result = result && !Vocabulary.RussianAlphabet.Contains(text[secondIndex]) &&
+                         !Vocabulary.EnglishAlphabet.Contains(text[secondIndex]);
+            return result;
         }
     }
 }

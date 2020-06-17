@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Cyriller;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using TourismBot.Helpers;
@@ -17,7 +16,7 @@ namespace TourismBotTests
         private static readonly PrivateType TelegramWorkerPrivate = new PrivateType(typeof(TelegramWorkerService));
         private static readonly string CountOccurenceName = "CountWordOccurence";
         private static readonly string GetMaxRatingName = "GetMaximumRating";
-        private static readonly string TryGetRatingName = "TryGetRuleRating";
+        private static readonly string TryGetRuleRatingName = "TryGetRuleRating";
         private static readonly string GetNounDeclensionName = "GetNounDeclension";
         private static readonly string GetAdjectiveDeclensionName = "GetAdjectiveDeclension";
         private static readonly string GetPhraseDeclensionName = "GetPhraseDeclension";
@@ -42,10 +41,10 @@ namespace TourismBotTests
             object[] args =
             {
                 "Мы с женой хотим отдохнуть в Белеке, в хорошем отеле на берегу с хорошей едой. " +
-                "Номер должен быть обязательно с видом на море.",
+                "Номер должен быть обязательно с видом на море.".ToLower(),
                 Rules.Food, result
             };
-            TelegramWorkerPrivate.InvokeStatic(TryGetRatingName, args);
+            TelegramWorkerPrivate.InvokeStatic(TryGetRuleRatingName, args);
             var outParameterValue = args[2];
             Assert.AreEqual(4.5f, outParameterValue);
         }
@@ -57,10 +56,10 @@ namespace TourismBotTests
             object[] args =
             {
                 "Мы с женой хотим отдохнуть в Белеке, в хорошем отеле на берегу с хорошей едой. " +
-                "Номер должен быть обязательно с видом на море. И чтобы можно было не думать о еде",
+                "Номер должен быть обязательно с видом на море. И чтобы можно было не думать о еде".ToLower(),
                 Rules.Food, result
             };
-            TelegramWorkerPrivate.InvokeStatic(TryGetRatingName, args);
+            TelegramWorkerPrivate.InvokeStatic(TryGetRuleRatingName, args);
             var outParameterValue = args[2];
             Assert.AreEqual(4.5f, outParameterValue);
         }
@@ -73,10 +72,10 @@ namespace TourismBotTests
             {
                 "Нужен отель на берегу с хорошей едой. " +
                 "Номер должен быть обязательно с видом на море. И чтобы можно было не думать о еде" +
-                "И еще раз с едой.",
+                "И еще раз с едой.".ToLower(),
                 Rules.Food, result
             };
-            TelegramWorkerPrivate.InvokeStatic(TryGetRatingName, args);
+            TelegramWorkerPrivate.InvokeStatic(TryGetRuleRatingName, args);
             var outParameterValue = args[2];
             Assert.AreEqual(4.5f, outParameterValue);
         }
@@ -88,11 +87,27 @@ namespace TourismBotTests
             object[] args =
             {
                 "Нужен отель на берегу с хорошей едой. " +
-                "Номер должен быть обязательно с видом на море. И чтобы можно было не думать о еде" +
-                "И еще раз с едой. Много еды.",
+                "Номер должен быть обязательно с видом на море. И чтобы можно было не думать о еде. " +
+                "И еще раз с едой. Много еды.".ToLower(),
                 Rules.Food, result
             };
-            TelegramWorkerPrivate.InvokeStatic(TryGetRatingName, args);
+            TelegramWorkerPrivate.InvokeStatic(TryGetRuleRatingName, args);
+            var outParameterValue = args[2];
+            Assert.AreEqual(4.7f, outParameterValue);
+        }
+
+        [Test]
+        public void TryGetRuleRating_ThreeOccurrenceWithTwoIdentical_CorrectValue()
+        {
+            var result = 0f;
+            object[] args =
+            {
+                "Нужен отель на берегу с хорошей едой. " +
+                "Номер должен быть обязательно с видом на море. " +
+                "И еще раз с едой. Много еды.".ToLower(),
+                Rules.Food, result
+            };
+            TelegramWorkerPrivate.InvokeStatic(TryGetRuleRatingName, args);
             var outParameterValue = args[2];
             Assert.AreEqual(4.7f, outParameterValue);
         }
@@ -146,10 +161,25 @@ namespace TourismBotTests
         }
 
         [Test]
+        public void GetMaximumRating_InputPeopleWithDisabilities_CorrectMaxValue()
+        {
+            var text = "Интересует ОТЕЛЬ в кОтОрОм предусмотрены удобства для людеЙ с ОГРАНИЧЕННЫМИ возМОжностями";
+            var resultRating = 0f;
+            object[] args = {text.ToLower(), Rules.PeopleWithDisabilities, resultRating};
+            var result = TelegramWorkerPrivate.InvokeStatic(TryGetRuleRatingName, args);
+            Assert.True((bool) result);
+            var outParameterValue = args[2];
+            Assert.AreEqual(4.4f, outParameterValue);
+
+            var retVal = TelegramWorkerPrivate.InvokeStatic(GetMaxRatingName, text);
+            Assert.AreEqual(4.4f, retVal);
+        }
+
+        [Test]
         public void CountWordOccurence_InputWithOneOccurrence_Success()
         {
             var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
-                "отель с хорошей едой", Rules.Food.AssociatedPhrases);
+                "отель с хорошей едой".ToLower(), Rules.Food.AssociatedPhrases);
             Assert.AreEqual(1, retVal);
         }
 
@@ -157,7 +187,7 @@ namespace TourismBotTests
         public void CountWordOccurence_InputWithThreeOccurrence_Success()
         {
             var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
-                "отель с хорошей едой, не беспокоиться о еде, много еды", Rules.Food.AssociatedPhrases);
+                "отель с хорошей едой, не беспокоиться о еде, много еды".ToLower(), Rules.Food.AssociatedPhrases);
             Assert.AreEqual(3, retVal);
         }
 
@@ -165,7 +195,7 @@ namespace TourismBotTests
         public void CountWordOccurence_InputWithPhrase_Success()
         {
             var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
-                "самый дешёвый отель", Rules.TheCheapest.AssociatedPhrases);
+                "самый дешёвый отель".ToLower(), Rules.TheCheapest.AssociatedPhrases);
             Assert.AreEqual(1, retVal);
         }
 
@@ -173,7 +203,7 @@ namespace TourismBotTests
         public void CountWordOccurence_InputWithSeveralPhrase_Success()
         {
             var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
-                "Нас интересует самый малостоящий отель. Только самый дешёвый отель",
+                "Нас интересует самый малостоящий отель. Только самый дешёвый отель".ToLower(),
                 Rules.TheCheapest.AssociatedPhrases);
             Assert.AreEqual(2, retVal);
         }
@@ -183,7 +213,7 @@ namespace TourismBotTests
         public void CountWordOccurence_InputWithSeveralPhrase_IgnoreCase_Success()
         {
             var retVal = TelegramWorkerPrivate.InvokeStatic(CountOccurenceName,
-                "Нас интересует САМЫЙ малостоящий отель. Только сАмЫй дЕшёвЫй отель",
+                "Нас интересует САМЫЙ малостоящий отель. Только сАмЫй дЕшёвЫй отель".ToLower(),
                 Rules.TheCheapest.AssociatedPhrases);
             Assert.AreEqual(2, retVal);
         }

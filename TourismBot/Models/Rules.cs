@@ -60,7 +60,7 @@ namespace TourismBot.Models
             result.AddRange(cheapest.Select(phrase =>
                 phrase.Replace('ё', 'е'))); // include typos
             result.AddRange(WordsCollection.GetPhraseDeclension("самый бюджетный"));
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeBudgetaryRule()
@@ -78,7 +78,7 @@ namespace TourismBot.Models
             result.AddRange(economyClass.Select(word => $"эконом {word}")); // include typos
             result.AddRange(economyClass.Select(word => $"эконом-{word}")); // include typos
             result.AddRange(WordsCollection.GetPhraseDeclension("экономичный класс"));
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializePickyRule()
@@ -111,7 +111,7 @@ namespace TourismBot.Models
                 "минимальными требованиями", "минимальных требованиях"
             };
             result.AddRange(temp.Select(word => $"не {word} больших требований"));
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeFoodRule()
@@ -128,7 +128,7 @@ namespace TourismBot.Models
             result.AddRange(WordsCollection.GetNounDeclension("ужин"));
             result.AddRange(WordsCollection.GetNounDeclension("рацион"));
             result.AddRange(new List<string> {"поесть", "перекусить", "закусить",});
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeAlcoholRule()
@@ -148,7 +148,7 @@ namespace TourismBot.Models
             result.AddRange(WordsCollection.GetAdjectiveDeclension("крепкий"));
             result.AddRange(WordsCollection.GetAdjectiveDeclension("горячительный"));
             result.AddRange(new List<string> {"выпить", "выпивать"});
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeQualityRule()
@@ -164,7 +164,7 @@ namespace TourismBot.Models
             result.AddRange(WordsCollection.GetAdjectiveDeclension("хороший"));
             result.AddRange(WordsCollection.GetAdjectiveDeclension("отличный"));
             result.AddRange(WordsCollection.GetAdjectiveDeclension("удобный"));
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeRestWithKidsRule()
@@ -198,7 +198,7 @@ namespace TourismBot.Models
             result.AddRange(WordsCollection.GetNounDeclension("младенец"));
             result.AddRange(WordsCollection.GetNounDeclension("отпрыск"));
             result.AddRange(WordsCollection.GetAdjectiveDeclension("детский"));
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeConstructionDateRule()
@@ -226,7 +226,7 @@ namespace TourismBot.Models
                 "эксплуатируемый", "эксплуатируемые", "эксплуатируемого", "эксплуатируемых",
                 "эксплуатируемому", "эксплуатируемым", "эксплуатируемыми", "эксплуатируемом",
             });
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeBeachBarRule()
@@ -235,7 +235,7 @@ namespace TourismBot.Models
             var bar = WordsCollection.GetNounDeclension("бар");
             result.AddRange(bar.Select(word => word.Insert(word.Length, " на пляже")));
             result.AddRange(new List<string> {"бар есть на пляже", "бар был на пляже", "бар будет на пляже"});
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeBabyStrollersRule()
@@ -248,7 +248,7 @@ namespace TourismBot.Models
             rent = WordsCollection.GetNounDeclension("прокат");
             result.AddRange(rent.Select(word => word.Insert(word.Length, " детской коляски")));
             result.AddRange(rent.Select(word => word.Insert(word.Length, " детских колясок")));
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeBlenderRule()
@@ -256,7 +256,7 @@ namespace TourismBot.Models
             var result = new List<string>();
             result.AddRange(WordsCollection.GetNounDeclension("блендер"));
             result.AddRange(WordsCollection.GetNounDeclension("миксер"));
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeHeatedPoolRule()
@@ -271,8 +271,7 @@ namespace TourismBot.Models
                 "подогреваемому бассейну", "подогреваемым бассейном",
                 "подогреваемыми бассейнами", "подогреваемом бассейне",
             });
-
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializePoolsQuantityRule()
@@ -284,7 +283,7 @@ namespace TourismBot.Models
             result.AddRange(amount.Select(word => word.Insert(word.Length, " бассейнов")));
             result.AddRange(Vocabulary.GetNumbersWithNounDeclension("бассейн"));
             result.AddRange(new List<string> {"несколько бассейнов", "много бассейнов"});
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeBarsQuantityRule()
@@ -296,7 +295,7 @@ namespace TourismBot.Models
             result.AddRange(amount.Select(word => word.Insert(word.Length, " баров")));
             result.AddRange(Vocabulary.GetNumbersWithNounDeclension("бар"));
             result.AddRange(new List<string> {"несколько баров", "много баров"});
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeKidsClubRule()
@@ -320,7 +319,7 @@ namespace TourismBot.Models
             oneKid = bed.Select(word => $"{word} для ребёнка").ToList();
             result.AddRange(oneKid);
             result.AddRange(oneKid.Select(word => word.Replace('ё', 'е'))); // include typos
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeKidsPotRule()
@@ -338,7 +337,7 @@ namespace TourismBot.Models
             oneKid = pot.Select(word => $"{word} для ребёнка").ToList();
             result.AddRange(oneKid);
             result.AddRange(oneKid.Select(word => word.Replace('ё', 'е'))); // include typos
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeAnimationShowRule()
@@ -347,7 +346,7 @@ namespace TourismBot.Models
             result.AddRange(WordsCollection.GetNounDeclension("анимация"));
             result.AddRange(WordsCollection.GetNounDeclension("шоу"));
             result.AddRange(WordsCollection.GetNounDeclension("представление"));
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializePeopleWithDisabilitiesRule()
@@ -360,7 +359,7 @@ namespace TourismBot.Models
                 "ограниченные возможности", "ограниченных возможностей", "ограниченным возможностям",
                 "ограниченными возможностями", "ограниченных возможностях"
             });
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeUltraAllInclusiveRule()
@@ -368,7 +367,7 @@ namespace TourismBot.Models
             var result = new List<string>();
             result.AddRange(new List<string>
                 {"UAI", "UAL", "UALL", "Ultra All Inclusive", "all inc", "ультра всё включено", "ультра все включено"});
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeKidsFoodRule()
@@ -392,7 +391,7 @@ namespace TourismBot.Models
             oneKid = food.Select(word => $"{word} для ребёнка").ToList();
             result.AddRange(oneKid);
             result.AddRange(oneKid.Select(word => word.Replace('ё', 'е'))); // include typos
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeBikeRentalRule()
@@ -405,7 +404,7 @@ namespace TourismBot.Models
             rent = WordsCollection.GetNounDeclension("прокат");
             result.AddRange(rent.Select(word => word.Insert(word.Length, " велосипеда")));
             result.AddRange(rent.Select(word => word.Insert(word.Length, " велосипедов")));
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeSportAndTrainingRule()
@@ -423,7 +422,7 @@ namespace TourismBot.Models
             result.AddRange(gym);
             result.AddRange(WordsCollection.GetPhraseDeclensionWithReplacedChar(gym, 6, 'ё')); // include typos
             result.AddRange(new List<string> {"спорт", "фитнесс", "фитнесс зал", "фитнес", "фитнес зал"});
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         private static List<string> InitializeRoomsRule()
@@ -431,7 +430,7 @@ namespace TourismBot.Models
             var result = new List<string>();
             result.AddRange(WordsCollection.GetNounDeclension("номер"));
             result.AddRange(WordsCollection.GetNounDeclension("комната"));
-            return result;
+            return result.Select(element => element.ToLower()).ToList();
         }
 
         #endregion vocabulary
