@@ -14,7 +14,7 @@ namespace TourismBotTests
     {
         private static readonly PrivateType RulesPrivate = new PrivateType(typeof(WordsCollection));
         private static readonly PrivateType TelegramWorkerPrivate = new PrivateType(typeof(TelegramWorkerService));
-        private static readonly string CountOccurenceName = "CountWordOccurence";
+        private static readonly string CountOccurenceName = "CountWordOccurrence";
         private static readonly string GetMaxRatingName = "GetMaximumRating";
         private static readonly string TryGetRuleRatingName = "TryGetRuleRating";
         private static readonly string GetNounDeclensionName = "GetNounDeclension";
@@ -105,6 +105,22 @@ namespace TourismBotTests
                 "Нужен отель на берегу с хорошей едой. " +
                 "Номер должен быть обязательно с видом на море. " +
                 "И еще раз с едой. Много еды.".ToLower(),
+                Rules.Food, result
+            };
+            TelegramWorkerPrivate.InvokeStatic(TryGetRuleRatingName, args);
+            var outParameterValue = args[2];
+            Assert.AreEqual(4.7f, outParameterValue);
+        }
+        
+        [Test]
+        public void TryGetRuleRating_ThreeOccurrenceWithTwoIdentical_TextLastWord_CorrectValue()
+        {
+            var result = 0f;
+            object[] args =
+            {
+                "Нужен отель на берегу с хорошей едой. " +
+                "Номер должен быть обязательно с видом на море. " +
+                "Много еды. И еще раз с едой".ToLower(),
                 Rules.Food, result
             };
             TelegramWorkerPrivate.InvokeStatic(TryGetRuleRatingName, args);

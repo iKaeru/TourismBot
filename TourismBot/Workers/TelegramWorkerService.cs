@@ -87,7 +87,7 @@ namespace TourismBot.Workers
 
         private static bool TryGetRuleRating(string text, Rule rule, out float rating)
         {
-            var occurrences = CountWordOccurence(text, rule.AssociatedPhrases);
+            var occurrences = CountWordOccurrence(text, rule.AssociatedPhrases);
             if (occurrences > 0)
             {
                 var ratingAmount = rule.RatingValue.Count;
@@ -116,7 +116,7 @@ namespace TourismBot.Workers
             return false;
         }
 
-        private static int CountWordOccurence(string text, List<string> phrases)
+        private static int CountWordOccurrence(string text, List<string> phrases)
         {
             var counter = 0;
             phrases.ForEach(phrase =>
@@ -124,8 +124,24 @@ namespace TourismBot.Workers
                 var index = text.IndexOf(phrase, StringComparison.Ordinal);
                 if (index != -1 && IsPhraseSeparatedWithWhitespaces(text, phrase, index))
                     counter++;
+                var startIndex = index + phrase.Length;
+                if (startIndex <= text.Length - 1 && text.Substring(startIndex).Contains(phrase))
+                {
+                    var otherOccurrences = SearchTextForSamePhraseOccurrences(text, phrase, index);
+                    if (otherOccurrences > 0)
+                        counter += otherOccurrences;
+                }
             });
             return counter;
+        }
+
+        private static int FoundWordOccurrence(string text, string phrase)
+        {
+            var index = -1;
+            var result = text.IndexOf(phrase, StringComparison.Ordinal);
+            if (result != -1 && IsPhraseSeparatedWithWhitespaces(text, phrase, result))
+                index = result;
+            return index;
         }
 
         private static bool IsPhraseSeparatedWithWhitespaces(string text, string phrase, int index)
@@ -142,6 +158,28 @@ namespace TourismBot.Workers
                 result = result && !Vocabulary.RussianAlphabet.Contains(text[secondIndex]) &&
                          !Vocabulary.EnglishAlphabet.Contains(text[secondIndex]);
             return result;
+        }
+
+        private static int SearchTextForSamePhraseOccurrences(string text, string phrase, int index)
+        {
+            var startIndex = index + phrase.Length;
+            var counter = 0;
+            while (true)
+            {
+                if (startIndex <= text.Length - 1)
+                {
+                    text = text.Substring(startIndex);
+                    var result = FoundWordOccurrence(text, phrase);
+                    if (result == -1)
+                        break;
+                    counter++;
+                    startIndex = result + phrase.Length;
+                }
+                else
+                    break;
+            }
+
+            return counter;
         }
     }
 }
